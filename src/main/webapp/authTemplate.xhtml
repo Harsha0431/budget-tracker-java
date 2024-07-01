@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+    <title>Login | SpendSmart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+	<link href="https://fonts.googleapis.com/css2?family=Federo&amp;family=Noto+Sans+Vithkuqi:wght@400..700&amp;display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme:{
+				extend:{
+					colors:{
+						'lightText': '#090713',
+						'lightBg': "#F9F8FC",
+						"lightPrimary": "#604CC2",
+						"lightSecondary": "#BB95DB",
+						"lightAccent": "#B67AD1",
+						'darkText': '#EEECF8',
+						'darkBg': "#040307",
+						"darkPrimary": "#513DB3",
+						"darkSecondary": "#4B246A",
+						"darkAccent": "#692E85",
+					},
+					fontFamily:{
+						customHead: ["Federo", "sans-serif"],
+						customBody: ["Noto Sans Vithkuqi", "sans-serif"]
+					}
+				},
+				screens: {
+					xxl: "1200px",
+				    xl: "992px",
+				    lg: "840px",
+				    md: "768px",
+				    sm: "640px",
+				    ssm: "576px",
+				    vsm: "400px",
+				    vvsm: "330px",
+				}
+            }
+        
+        }
+    </script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const isDark = localStorage.getItem('theme') === 'true';
+            if (isDark) {
+                document.getElementById('auth__body').classList.add('dark');
+            } else {
+                document.getElementById('auth__body').classList.remove('dark');
+            }
+        });
+
+        function toggleTheme() {
+            const mainBody = document.getElementById("auth__body");
+            const isDark = mainBody.classList.toggle('dark');
+            localStorage.setItem('theme', isDark);
+        }
+    </script>
+</h:head>
+
+<h:body id="auth__body" styleClass="w-[100dvw] font-customBody">
+	<div class="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText w-full min-h-[100dvh] h-full flex flex-col">
+	    <h:panelGroup layout="block" id="header">
+	        <ui:insert name="header">
+	        	<ui:include src="/header.xhtml" />
+	        </ui:insert>
+	    </h:panelGroup>
+	    <h:panelGroup layout="block" id="content" styleClass="flex flex-col w-full h-full flex-1">
+	        <ui:insert name="content">
+	            <h:outputText value="Auth Content" />
+	        </ui:insert>
+	    </h:panelGroup>
+	    <h:panelGroup layout="block" id="navigation">
+		    <div class="nav__container flex w-full justify-center fixed bottom-0 z-[1000] bg-transparent">
+		    	<div id="nav__content" class="nav__content nav__options w-fit text-darkText dark:text-lightText/90
+		    		dark:bg-lightBg bg-darkBg font-semibold px-6 max-lg:px-4 max-ssm:px-3 py-2.5 max-lg:py-2 max-ssm:py-1.5 rounded-t-xl flex 
+		    		text-[calc(14px+0.2dvw)] gap-x-6 items-center justify-center text-[calc(16px+0.2dvw)]">
+			        <h:form id="auth_template__back_to_home" styleClass="flex gap-x-6">
+			        	<h:commandLink action="index" aria-label="Home" styleClass="hover:-translate-y-1 transition-all">
+			        		<abbr title="Home">			        		
+				        		<svg xmlns="http://www.w3.org/2000/svg" class="size-8 fill-lightAccent dark:fill-darkAccent" viewBox="0 0 24 24">
+				        			<path fill="current" d="M4 21V9l8-6l8 6v12h-6v-7h-4v7z"/>
+				        		</svg>
+			        		</abbr>
+			        		<span class="sr-only">Home</span>
+			        	</h:commandLink>
+			        </h:form>
+		        	<button aria-label="Change Theme" onclick="toggleTheme()" class="hover:-translate-y-1 transition-all">
+		        		<abbr title="change theme">		        		
+			        		<svg xmlns="http://www.w3.org/2000/svg" class="size-8 fill-lightAccent dark:fill-darkAccent" viewBox="0 0 24 24">
+						        <path fill="current"
+						        	d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m0-1.5v-17a8.5 8.5 0 0 1 0 17"
+						        />
+						    </svg>
+		        		</abbr>
+					    <span class="sr-only">Change Theme</span>
+		        	</button>
+		        </div>
+		    </div>
+	    </h:panelGroup>
+	</div>
+</h:body>
+</html>

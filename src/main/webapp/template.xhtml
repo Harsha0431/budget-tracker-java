@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+>
+<h:head>
+    <title>SpendSmart | Expense Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+	<link href="https://fonts.googleapis.com/css2?family=Federo&amp;family=Noto+Sans+Vithkuqi:wght@400..700&amp;display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme:{
+				extend:{
+					colors:{
+						'lightText': '#090713',
+						'lightBg': "#F9F8FC",
+						"lightPrimary": "#604CC2",
+						"lightSecondary": "#BB95DB",
+						"lightAccent": "#B67AD1",
+						'darkText': '#EEECF8',
+						'darkBg': "#040307",
+						"darkPrimary": "#513DB3",
+						"darkSecondary": "#4B246A",
+						"darkAccent": "#692E85",
+					},
+					fontFamily:{
+						customHead: ["Federo", "sans-serif"],
+						customBody: ["Noto Sans Vithkuqi", "sans-serif"]
+					}
+				},
+				screens: {
+					xxl: "1200px",
+				    xl: "992px",
+				    lg: "840px",
+				    md: "768px",
+				    sm: "640px",
+				    ssm: "576px",
+				    vsm: "400px",
+				    vvsm: "330px",
+				}
+            }
+        
+        }
+    </script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const isDark = localStorage.getItem('theme') === 'true';
+            if (isDark) {
+                document.getElementById('main__body').classList.add('dark');
+            } else {
+                document.getElementById('main__body').classList.remove('dark');
+            }
+        });
+
+        function toggleTheme() {
+            const mainBody = document.getElementById("main__body");
+            const isDark = mainBody.classList.toggle('dark');
+            localStorage.setItem('theme', isDark);
+        }
+    </script>
+</h:head>
+<h:body id="main__body" styleClass="w-[100dvw] font-customBody overflow-x-hidden">
+	<div class="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText w-full min-h-[100dvh] h-full flex flex-col">
+		<h:panelGroup layout="block" id="header">
+	        <ui:insert name="header">
+	        	<ui:include src="/header.xhtml" />
+	        </ui:insert>
+	    </h:panelGroup>
+
+	    <h:panelGroup layout="block" id="content">
+	        <ui:insert name="content">
+	            <h:outputText value="Default Content" />
+	        </ui:insert>
+	    </h:panelGroup>
+	    <h:panelGroup layout="block" id="footer">
+	        <ui:insert name="footer">
+	            <h:outputText value="Default Footer" />
+	        </ui:insert>
+	    </h:panelGroup>
+	    <h:panelGroup layout="block" id="navigation">
+		    <ui:include src="/footerNav.xhtml" />
+	    </h:panelGroup>
+	</div>
+</h:body>
+</html>
