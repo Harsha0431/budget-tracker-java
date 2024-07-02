@@ -3,12 +3,10 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
+
 	<ui:composition template="/template.xhtml">
-	
-		<ui:define name="content">	
-			<h:outputText value="Current theme is: #{homeStore.darkTheme ? 'Dark' : 'Light'}" /><br />
-			<h:outputText value="Home Page" /><br />
-			<h:outputText value="#{authBean.userEmail} - #{authBean.loginMessage} - IsLoggedin: #{authBean.loginStatus}" /><br />
+		<ui:define name="content">
+			<h:outputText value="Is loggedin: #{authBean.loginStatus} -- #{authBean.userEmail}" />
 		</ui:define>
 	</ui:composition>
 </html>

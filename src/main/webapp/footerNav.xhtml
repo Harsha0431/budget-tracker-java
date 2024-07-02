@@ -4,52 +4,74 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
       
-<head>
+<h:head>
     <style>
         a, abbr {
             text-decoration: none;
         }
+        
+        #nav__content::-webkit-scrollbar {
+  			width: 0px;
+  			display: none;
+		}
+		
+		#nav__content::-webkit-scrollbar-track {
+  			width: 0px;
+  			display: none;
+		}
     </style>
-</head>
-<body>
-	<div class="nav__container flex w-full h-max justify-center fixed bottom-0 z-[1000] bg-transparent px-2 overflow-hidden">
-	
-        <div id="nav__content" class="nav__content nav__options h-max w-fit text-darkText/80 dark:text-lightText/70 dark:bg-lightBg bg-darkBg font-semibold px-6 max-lg:px-4 max-ssm:px-3 py-2 max-ssm:py-1.5 rounded-t-xl flex text-[calc(14px+0.2dvw)] max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12 items-center justify-center text-[calc(16px+0.2dvw)]">
-            <div class="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12">
-                <h:form id="nav__dashboard" styleClass="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12 h-max">
-                    <h:commandLink action="dashboard" class="relative w-max group">
-                        <abbr class="relative w-max flex flex-col justify-center items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="scale-[0.85] group-hover:scale-95 transition-all max-ssm:size-8 size-9 fill-lightAccent dark:fill-darkAccent" viewBox="0 0 24 24">
-                                <path fill="current" d="M12 1.75A10.25 10.25 0 1 0 22.25 12A10.26 10.26 0 0 0 12 1.75m5.16 8l-2.23 3.36a1.65 1.65 0 0 1-1 .71a1.622 1.622 0 0 1-1.23-.23l-2.17-1.37a.202.202 0 0 0-.11 0a.11.11 0 0 0-.09.06l-2.23 3a.73.73 0 0 1-.6.3a.78.78 0 0 1-.45-.15a.75.75 0 0 1-.14-1.05l2.22-2.95c.243-.33.6-.557 1-.64a1.69 1.69 0 0 1 1.18.22l2.17 1.38a.17.17 0 0 0 .12 0a.14.14 0 0 0 .1-.07l2.23-3.36a.75.75 0 0 1 1.25.83z"/>
-                            </svg>
-                        </abbr>
-                        <span class="block line-clamp-1 hover:line-clamp-none text-[calc(12px+0.2dvw)] decoration-none -mt-1.5">Dashboard</span>
-                    </h:commandLink>
-                </h:form>
-            </div>
-            <div class="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12">
-                <h:form id="nav__auth" styleClass="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12 h-max">
-                    <h:commandLink action="login" styleClass="relative w-max group">
-                        <abbr class="relative w-max flex flex-col justify-center items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="scale-[0.85] group-hover:scale-95 transition-all max-ssm:size-8 size-9 fill-lightAccent dark:fill-darkAccent" viewBox="0 0 24 24">
-                                <path fill="current" d="M12 3c-4.625 0-8.442 3.507-8.941 8.001H10v-3l5 4l-5 4v-3H3.06C3.56 17.494 7.376 21 12 21c4.963 0 9-4.037 9-9s-4.037-9-9-9"/>
-                            </svg>
-                        </abbr>
-                        <span class="block line-clamp-1 hover:line-clamp-none text-[calc(12px+0.2dvw)] -mt-1.5">Login</span>
-                    </h:commandLink>
-                </h:form>
-            </div>
-            <div class="w-max h-max">
-                <button aria-label="Change Theme" onclick="toggleTheme()" class="group flex flex-col w-max h-max items-center justify-center relative w-max">
-                    <abbr title="change theme" class="relative w-max flex flex-col justify-center items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="scale-[0.85] group-hover:scale-95 transition-all max-ssm:size-8 size-9 fill-lightAccent dark:fill-darkAccent" viewBox="0 0 24 24">
-                            <path fill="current" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m0-1.5v-17a8.5 8.5 0 0 1 0 17"/>
-                        </svg>
-                    </abbr>
-                    <span class="line-clamp-1 hover:line-clamp-none block text-[calc(12px+0.2dvw)] -mt-1.5">Theme</span>
-                </button>
-            </div>
-        </div>
-	</div>    
-</body>
+</h:head>	
+<h:body styleClass="nav__footer__body">
+   	<h:panelGroup layout="block" id="nav__content" styleClass="nav__content nav__options h-max w-fit text-darkText/80 dark:text-lightText/70 dark:bg-lightBg bg-darkBg font-semibold px-6 max-lg:px-4 max-ssm:px-3 py-2 max-ssm:py-1.5 max-vvsm:pl-3 rounded-t-xl flex text-[calc(14px+0.2dvw)] max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12 items-center justify-center text-[calc(16px+0.2dvw)] overflow-x-auto">
+		
+		<h:panelGroup id="nav__dashboard" layout="block" styleClass="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12">
+        	<h:outputLink value="dashboard.jsf" styleClass="relative w-max group flex flex-col justify-center items-center">
+                <h:outputText escape="false" value="
+			    	&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;scale-[0.85] group-hover:scale-95 transition-all max-ssm:size-8 size-9 fill-lightAccent dark:fill-darkAccent&quot; viewBox=&quot;0 0 24 24&quot;&gt;
+			        &lt;path fill=&quot;current&quot; d=&quot;M12 1.75A10.25 10.25 0 1 0 22.25 12A10.26 10.26 0 0 0 12 1.75m5.16 8l-2.23 3.36a1.65 1.65 0 0 1-1 .71a1.622 1.622 0 0 1-1.23-.23l-2.17-1.37a.202.202 0 0 0-.11 0a.11.11 0 0 0-.09.06l-2.23 3a.73.73 0 0 1-.6.3a.78.78 0 0 1-.45-.15a.75.75 0 0 1-.14-1.05l2.22-2.95c.243-.33.6-.557 1-.64a1.69 1.69 0 0 1 1.18.22l2.17 1.38a.17.17 0 0 0 .12 0a.14.14 0 0 0 .1-.07l2.23-3.36a.75.75 0 0 1 1.25.83z&quot;/&gt;
+			        &lt;/svg&gt;
+			    " />
+                <span class="block line-clamp-1 hover:line-clamp-none text-[calc(12px+0.2dvw)] decoration-none -mt-1.5">Dashboard</span>
+           	</h:outputLink>
+       	</h:panelGroup>
+       	
+       	<h:panelGroup id="nav__auth_login" layout="block" styleClass="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12" rendered="#{not authBean.loginStatus}">
+        	<h:outputLink value="login.jsf" styleClass="relative w-max group flex flex-col justify-center items-center">
+                <h:outputText escape="false" value="
+				    &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;scale-[0.85] group-hover:scale-95 transition-all max-ssm:size-8 size-9 fill-lightAccent dark:fill-darkAccent&quot; viewBox=&quot;0 0 24 24&quot;&gt;
+				        &lt;path fill=&quot;current&quot; d=&quot;M12 3c-4.625 0-8.442 3.507-8.941 8.001H10v-3l5 4l-5 4v-3H3.06C3.56 17.494 7.376 21 12 21c4.963 0 9-4.037 9-9s-4.037-9-9-9&quot;/&gt;
+				    &lt;/svg&gt;
+				" />
+                <span class="block line-clamp-1 hover:line-clamp-none text-[calc(12px+0.2dvw)] -mt-1.5">Login</span>
+            </h:outputLink>
+      	</h:panelGroup>
+      	
+      	<h:panelGroup id="nav__avatar" layout="block" styleClass="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12" rendered="#{authBean.loginStatus}">
+        	<h:outputLink value="account.jsf" styleClass="relative w-max group flex flex-col justify-center items-center">
+                <h:outputText escape="false" value="
+				    &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;scale-[0.85] group-hover:scale-95 transition-all max-ssm:size-8 size-9 fill-lightAccent dark:fill-darkAccent&quot; viewBox=&quot;0 0 32 32&quot;&gt;
+				    &lt;path fill=&quot;none&quot; d=&quot;M8.007 24.93A4.996 4.996 0 0 1 13 20h6a4.996 4.996 0 0 1 4.993 4.93a11.94 11.94 0 0 1-15.986 0M20.5 12.5A4.5 4.5 0 1 1 16 8a4.5 4.5 0 0 1 4.5 4.5&quot;/&gt;
+				    &lt;path fill=&quot;current&quot; d=&quot;M26.749 24.93A13.99 13.99 0 1 0 2 16a13.9 13.9 0 0 0 3.251 8.93l-.02.017c.07.084.15.156.222.239c.09.103.187.2.28.3q.418.457.87.87q.14.124.28.242q.48.415.99.782c.044.03.084.069.128.1v-.012a13.9 13.9 0 0 0 16 0v.012c.044-.031.083-.07.128-.1q.51-.368.99-.782q.14-.119.28-.242q.451-.413.87-.87c.093-.1.189-.197.28-.3c.071-.083.152-.155.222-.24ZM16 8a4.5 4.5 0 1 1-4.5 4.5A4.5 4.5 0 0 1 16 8M8.007 24.93A4.996 4.996 0 0 1 13 20h6a4.996 4.996 0 0 1 4.993 4.93a11.94 11.94 0 0 1-15.986 0&quot;/&gt;
+				    &lt;/svg&gt;
+				" />			
+                <span class="block line-clamp-1 hover:line-clamp-none text-[calc(12px+0.2dvw)] -mt-1.5">Account</span>
+            </h:outputLink>
+      	</h:panelGroup>
+      	
+       	
+       	<h:panelGroup layout="block" styleClass="w-max h-max">
+         	<button aria-label="Change Theme" onclick="toggleTheme()" class="group flex flex-col w-max h-max items-center justify-center relative w-max">
+            	<abbr title="change theme" class="relative w-max flex flex-col justify-center items-center">
+                	<h:outputText escape="false" value="
+					    &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;scale-[0.85] group-hover:scale-95 transition-all max-ssm:size-8 size-9 fill-lightAccent dark:fill-darkAccent&quot; viewBox=&quot;0 0 24 24&quot;&gt;
+					        &lt;path fill=&quot;current&quot; d=&quot;M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m0-1.5v-17a8.5 8.5 0 0 1 0 17&quot;/&gt;
+					    &lt;/svg&gt;
+					" />
+                </abbr>
+                <span class="line-clamp-1 hover:line-clamp-none block text-[calc(12px+0.2dvw)] -mt-1.5">Theme</span>
+            </button>
+      	</h:panelGroup>
+      	
+    </h:panelGroup>
+</h:body>
 </html>

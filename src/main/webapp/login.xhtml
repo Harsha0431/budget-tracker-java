@@ -3,20 +3,21 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
-<head>
+<h:head>
 	<title>Login | SpendSmart</title>
-</head>
+</h:head>
 
 	<ui:composition template="/authTemplate.xhtml">
 		<ui:define name="content">
-			<div class="login__container w-full flex-1 h-full flex px-2 py-2 items-center justify-center">
+			<h:panelGroup layout="block" styleClass="login__container w-full flex-1 h-full flex px-2 py-2 items-center justify-center">
 				<h:form
-					onsubmit="#{authBean.handleLogin()}"
+					id="auth__login_form"
 					styleClass="login__form text-base max-ssm:text-sm relative w-full max-w-[450px] flex flex-col gap-y-4 py-8 max-ssm:py-7 px-8 max-ssm:px-4 border rounded-md overflow-hidden z-[100] dark:border-lightBg/50 border-darkBg/50 border-[1.5px] shadow-md dark:shadow-darkBg/50 bg-transparent"
 				>
 					<div class="flex flex-col gap-y-0.5 w-full mb-3 justify-center items-center">
 						<span class="font-customHead tracking-wide text-center text-2xl max-lg:text-xl font-semibold">Login to SpendSmart</span>
 						<span class="text-center text-base max-ssm:text-sm text-lightText/90 dark:text-darkText/90">Sign in to manage your expenses and achieve your financial goals.</span>
+						<h:outputText value="#{authBean.userEmail} - #{authBean.loginMessage} - IsLoggedin: #{authBean.loginStatus}" />
 					</div>
 					<div class="flex flex-col gap-y-1">
 						<h:outputLabel value="Email" for="user_email" styleClass="w-fit" />						
@@ -41,12 +42,22 @@
 						</h:inputSecret>
 						<h:message styleClass="text-sm" for="user_password" style="color:red;" />
 					</div>
-					<div class="form_submit__btn flex w-full mt-1">
-						<h:commandButton type="submit" value="Login"
+					<div class="form_submit__btn flex flex-col gap-y-1 w-full mt-1">
+						<h:commandButton value="Login"
+							action="#{authBean.handleLogin}"
 							styleClass="px-3 py-1.5 text-darkText bg-lightPrimary dark:bg-darkPrimary font-semibold w-full cursor-pointer hover:bg-lightPrimary/[0.9] dark:hover:bg-darkPrimary/[0.95] transition-all rounded-md"
 						>
 							<f:ajax execute="@form" render="@form" />
 						</h:commandButton>
+						<h:outputText value="#{authBean.loginMessage}" rendered="#{not empty authBean.loginMessage and authBean.loginMessageType eq 'warning'}" 
+							styleClass="line-clamp-1 hover:line-clamp-none text-sm text-[#FFA000]"
+						/>
+						<h:outputText value="#{authBean.loginMessage}" rendered="#{not empty authBean.loginMessage and authBean.loginMessageType eq 'error'}" 
+							styleClass="line-clamp-1 hover:line-clamp-none text-sm text-[#D32F2F]"
+						/>
+						<h:outputText value="#{authBean.loginMessage}" rendered="#{not empty authBean.loginMessage and authBean.loginMessageType eq 'success'}" 
+							styleClass="line-clamp-1 hover:line-clamp-none text-sm text-[#00C853]"
+						/>
 					</div>
 					<div class="w-full text-right text-sm font-[300] flex flex-col gap-y-1">
 						<span>New to SpendSmart?</span>
@@ -58,7 +69,7 @@
 						</span>
 					</div>
 				</h:form>
-			</div>
+			</h:panelGroup>
 		</ui:define>
 	</ui:composition>
 </html>

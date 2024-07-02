@@ -65,7 +65,7 @@
 </h:head>
 
 <h:body id="auth__body" styleClass="w-[100dvw] font-customBody">
-	<div class="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText w-full min-h-[100dvh] h-full flex flex-col">
+	<h:panelGroup layout="block" styleClass="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText w-full min-h-[100dvh] h-full flex flex-col">
 	    <h:panelGroup layout="block" id="header">
 	        <ui:insert name="header">
 	        	<ui:include src="/header.xhtml" />
@@ -77,33 +77,32 @@
 	        </ui:insert>
 	    </h:panelGroup>
 	    <h:panelGroup layout="block" id="navigation">
-		    <div class="nav__container flex w-full justify-center fixed bottom-0 z-[1000] bg-transparent">
-		    	<div id="nav__content" class="nav__content nav__options w-fit text-darkText dark:text-lightText/90
-		    		dark:bg-lightBg bg-darkBg font-semibold px-6 max-lg:px-4 max-ssm:px-3 py-2.5 max-lg:py-2 max-ssm:py-1.5 rounded-t-xl flex 
-		    		text-[calc(14px+0.2dvw)] gap-x-6 items-center justify-center text-[calc(16px+0.2dvw)]">
-			        <h:form id="auth_template__back_to_home" styleClass="flex gap-x-6">
-			        	<h:commandLink action="index" aria-label="Home" styleClass="hover:-translate-y-1 transition-all">
-			        		<abbr title="Home">			        		
-				        		<svg xmlns="http://www.w3.org/2000/svg" class="size-8 fill-lightAccent dark:fill-darkAccent" viewBox="0 0 24 24">
-				        			<path fill="current" d="M4 21V9l8-6l8 6v12h-6v-7h-4v7z"/>
-				        		</svg>
-			        		</abbr>
-			        		<span class="sr-only">Home</span>
-			        	</h:commandLink>
-			        </h:form>
-		        	<button aria-label="Change Theme" onclick="toggleTheme()" class="hover:-translate-y-1 transition-all">
-		        		<abbr title="change theme">		        		
-			        		<svg xmlns="http://www.w3.org/2000/svg" class="size-8 fill-lightAccent dark:fill-darkAccent" viewBox="0 0 24 24">
-						        <path fill="current"
-						        	d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m0-1.5v-17a8.5 8.5 0 0 1 0 17"
-						        />
-						    </svg>
-		        		</abbr>
-					    <span class="sr-only">Change Theme</span>
-		        	</button>
-		        </div>
-		    </div>
+		    <h:panelGroup layout="block" styleClass="nav__container flex w-full justify-center fixed bottom-0 z-[1000] bg-transparent">
+		    	<h:panelGroup layout="block" id="nav__content" styleClass="nav__content nav__options w-fit text-darkText dark:text-lightText/90 dark:bg-lightBg bg-darkBg font-semibold px-6 max-lg:px-4 max-ssm:px-3 py-2.5 max-lg:py-2 max-ssm:py-1.5 rounded-t-xl flex text-[calc(14px+0.2dvw)] gap-x-6 items-center justify-center text-[calc(16px+0.2dvw)]">
+				    <h:panelGroup>
+					    <h:outputLink value="index.jsf" aria-label="Home" styleClass="hover:-translate-y-1 transition-all flex gap-x-6">
+					        <abbr title="Home">
+					            <svg xmlns="http://www.w3.org/2000/svg" class="size-8 fill-lightAccent dark:fill-darkAccent" viewBox="0 0 24 24">
+					                <path fill="current" d="M4 21V9l8-6l8 6v12h-6v-7h-4v7z"/>
+					            </svg>
+					        </abbr>
+					        <span class="sr-only">Home</span>
+					    </h:outputLink>
+				    </h:panelGroup>
+					<h:panelGroup>
+					    <button aria-label="Change Theme" onclick="toggleTheme()" class="hover:-translate-y-1 transition-all">
+					        <abbr title="change theme">
+					            <svg xmlns="http://www.w3.org/2000/svg" class="size-8 fill-lightAccent dark:fill-darkAccent" viewBox="0 0 24 24">
+					                <path fill="current" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m0-1.5v-17a8.5 8.5 0 0 1 0 17"/>
+					            </svg>
+					        </abbr>
+					        <span class="sr-only">Change Theme</span>
+					    </button>
+					
+					</h:panelGroup>
+				</h:panelGroup>
+		    </h:panelGroup>
 	    </h:panelGroup>
-	</div>
+	</h:panelGroup>
 </h:body>
 </html>

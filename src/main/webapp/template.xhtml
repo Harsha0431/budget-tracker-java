@@ -66,7 +66,7 @@
     </script>
 </h:head>
 <h:body id="main__body" styleClass="w-[100dvw] font-customBody overflow-x-hidden">
-	<div class="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText w-full min-h-[100dvh] h-full flex flex-col">
+	<h:panelGroup layout="block" styleClass="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText w-full min-h-[100dvh] h-full flex flex-col">
 		<h:panelGroup layout="block" id="header">
 	        <ui:insert name="header">
 	        	<ui:include src="/header.xhtml" />
@@ -83,9 +83,9 @@
 	            <h:outputText value="Default Footer" />
 	        </ui:insert>
 	    </h:panelGroup>
-	    <h:panelGroup layout="block" id="navigation">
+	    <h:panelGroup layout="block" id="navigation" styleClass="nav__container flex w-full h-max justify-center fixed bottom-0 z-[1000] bg-transparent px-2 overflow-hidden">
 		    <ui:include src="/footerNav.xhtml" />
 	    </h:panelGroup>
-	</div>
+	</h:panelGroup>
 </h:body>
 </html>
