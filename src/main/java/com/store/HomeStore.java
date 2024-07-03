@@ -17,7 +17,7 @@ public class HomeStore implements Serializable {
 	private String userName = null;
 	
 	private boolean showMainLoader = false;
-	private String mainLoaderMessage = "Hello World ..." ;
+	private String mainLoaderMessage = "" ;
 
 	public String getMainLoaderMessage() {
 		return mainLoaderMessage;
@@ -70,5 +70,20 @@ public class HomeStore implements Serializable {
 	
 	public void setLoginToken(String loginToken) {
 		this.loginToken = loginToken;
+	}
+	
+	public String openDashboard() {
+		if(isLoggedIn)
+			return "dashboard.jsf";
+		else
+			return "login.jsf";
+	}
+	
+	public String openAccountProfile() {
+		if(isLoggedIn) {
+			return "account.jsf";
+		}
+		else
+			return "login.jsf";
 	}
 }
