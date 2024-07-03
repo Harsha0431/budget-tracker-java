@@ -16,7 +16,17 @@ public class LoginEntity implements Serializable {
 	String email;
 	@Column(name = "password")
 	String password;
+	@Column(name="name")
+	String name;
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getEmail() {
 		return email;
 	}

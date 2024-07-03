@@ -6,21 +6,31 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@ManagedBean(name = "authBean")
+import com.store.HomeStore;
+
+@ManagedBean(name = "authBean", eager = true)
 @Stateless
-@SessionScoped
+@RequestScoped
 public class AuthModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static LoginService loginService = new LoginService();
 	
-	private boolean loginStatus;
-	private String userEmail;
+	@ManagedProperty("#{homeStore}")
+	private HomeStore homeStore;
 
+	public HomeStore getHomeStore() {
+		return homeStore;
+	}
+
+	public void setHomeStore(HomeStore homeStore) {
+		this.homeStore = homeStore;
+	}
 
 	@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Invalid Email")
 	private String loginEmail;
@@ -31,25 +41,8 @@ public class AuthModel implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		loginStatus = false;
+		System.out.println("AuthModel post-construct initilized");
 	}
-	
-	public boolean getLoginStatus() {
-		return loginStatus;
-	}
-
-	public void setLoginStatus(boolean loginStatus) {
-		this.loginStatus = loginStatus;
-	}
-
-	public String getUserEmail() {
-		return userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-	
 	
 	public String getLoginMessage() {
 		return loginMessage;
@@ -85,11 +78,13 @@ public class AuthModel implements Serializable {
 	
 	public String handleLogin() {
 		try {
-			if(loginStatus) {
-				loginMessage = "Already loggedin.";
+			// System.out.println(loginEmail + " " + loginPassword);
+			if(homeStore.getIsLoggedIn()) {
+				loginMessage = "Already loggedin";
 				loginMessageType = "warning";
 				return "index.jsf?faces-redirect=true";
 			}
+			homeStore.setShowMainLoader(true);
 			if(loginEmail!=null && loginPassword!=null && loginEmail.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$") && loginPassword.length()>0) {
 				loginMessage = "Ready to login";
 				loginMessageType = "success";
@@ -97,14 +92,14 @@ public class AuthModel implements Serializable {
 				loginMessage = response.get(0);
 				loginMessageType = response.get(1);
 				if(response.get(1).equals("success")) {
-					loginStatus = true;
-					userEmail = loginEmail;
-					loginPassword= null;
-					loginMessage = null;
+					homeStore.setIsLoggedIn(true);
+					homeStore.setUserEmail(loginEmail);
+					homeStore.setUserName(response.get(2));
 					return "index.jsf?faces-redirect=true";
 				}
 			}
 			else {
+				homeStore.setIsLoggedIn(false);
 				loginMessage = "Invalid login credentials";
 				loginMessageType = "warning";
 				return null;
@@ -116,14 +111,21 @@ public class AuthModel implements Serializable {
 			System.out.println("Caught error in handle login:");
 			e.printStackTrace();
 		}
+		finally {
+			// homeStore.setShowMainLoader(false);
+		}
 		return null;
 	}
 	
 	public void handleLogout() {
 		try {
-			System.out.println("Came to logout: " + loginStatus +" --- " + loginEmail);
-			loginStatus = false;
-			userEmail = null;
+			if(!homeStore.getIsLoggedIn()) {
+				return;
+			}
+			System.out.println("Came to logout: " + homeStore.getIsLoggedIn() +" --- " + homeStore.getUserEmail());
+			homeStore.setIsLoggedIn(false);
+			homeStore.setUserEmail(null);
+			homeStore.setUserName(null);
 		}
 		catch (Exception e) {
 			System.out.println("Caught error in handleLogout: ");

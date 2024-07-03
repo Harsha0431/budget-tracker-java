@@ -6,9 +6,9 @@
 	<ui:composition template="/template.xhtml">
 	
 		<ui:define name="content">	
-			<h:outputText value="Current theme is: #{homeStore.darkTheme ? 'Dark' : 'Light'}" /><br />
 			<h:outputText value="Home Page" /><br />
-			<h:outputText value="#{authBean.userEmail} - #{authBean.loginMessage} - IsLoggedin: #{authBean.loginStatus}" /><br />
+			<h:outputText value="Showing main loader: #{homeStore.showMainLoader}" /><br />
+			<h:outputText value="#{homeStore.userEmail} - #{authBean.loginMessage} - IsLoggedin: #{homeStore.isLoggedIn}" /><br />
 		</ui:define>
 	</ui:composition>
 </html>

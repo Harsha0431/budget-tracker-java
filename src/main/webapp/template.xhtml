@@ -86,6 +86,9 @@
 	    <h:panelGroup layout="block" id="navigation" styleClass="nav__container flex w-full h-max justify-center fixed bottom-0 z-[1000] bg-transparent px-2 overflow-hidden">
 		    <ui:include src="/footerNav.xhtml" />
 	    </h:panelGroup>
+	    <h:panelGroup rendered="#{homeStore.showMainLoader}" layout="block" styleClass="main__loader w-[100dvw] h-[100dvh] z-[10000] absolute inset-0 backdrop-brightness-75">
+	    	<ui:include src="/mainLoader.xhtml" />
+	    </h:panelGroup>
 	</h:panelGroup>
 </h:body>
 </html>

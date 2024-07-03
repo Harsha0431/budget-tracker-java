@@ -103,6 +103,9 @@
 				</h:panelGroup>
 		    </h:panelGroup>
 	    </h:panelGroup>
+	    <h:panelGroup rendered="#{homeStore.showMainLoader}" layout="block" styleClass="main__loader w-[100dvw] h-[100dvh] z-[10000] absolute inset-0 backdrop-brightness-75">
+	    	<ui:include src="/mainLoader.xhtml" />
+	    </h:panelGroup>
 	</h:panelGroup>
 </h:body>
 </html>

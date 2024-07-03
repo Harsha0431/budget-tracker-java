@@ -6,7 +6,12 @@
 
 	<ui:composition template="/template.xhtml">
 		<ui:define name="content">
-			<h:outputText value="Is loggedin: #{authBean.loginStatus} -- #{authBean.userEmail}" />
+			<h:outputText value="Is loggedin: #{homeStore.isLoggedIn} -- #{homeStore.userEmail}" /> <br />
+			<h:outputText value="Welcome #{homeStore.userName}" />
+			<br />
+			<h:form>
+				<h:commandButton action="#{authBean.handleLogout()}" value="Logout" styleClass="cursor-pointer bg-red-600" />
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </html>

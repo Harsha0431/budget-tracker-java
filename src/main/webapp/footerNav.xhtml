@@ -35,7 +35,7 @@
            	</h:outputLink>
        	</h:panelGroup>
        	
-       	<h:panelGroup id="nav__auth_login" layout="block" styleClass="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12" rendered="#{not authBean.loginStatus}">
+       	<h:panelGroup id="nav__auth_login" layout="block" styleClass="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12" rendered="#{not homeStore.isLoggedIn}">
         	<h:outputLink value="login.jsf" styleClass="relative w-max group flex flex-col justify-center items-center">
                 <h:outputText escape="false" value="
 				    &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;scale-[0.85] group-hover:scale-95 transition-all max-ssm:size-8 size-9 fill-lightAccent dark:fill-darkAccent&quot; viewBox=&quot;0 0 24 24&quot;&gt;
@@ -46,7 +46,7 @@
             </h:outputLink>
       	</h:panelGroup>
       	
-      	<h:panelGroup id="nav__avatar" layout="block" styleClass="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12" rendered="#{authBean.loginStatus}">
+      	<h:panelGroup id="nav__avatar" layout="block" styleClass="flex max-ssm:gap-x-7 max-lg:gap-x-9 gap-x-12" rendered="#{homeStore.isLoggedIn}">
         	<h:outputLink value="account.jsf" styleClass="relative w-max group flex flex-col justify-center items-center">
                 <h:outputText escape="false" value="
 				    &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;scale-[0.85] group-hover:scale-95 transition-all max-ssm:size-8 size-9 fill-lightAccent dark:fill-darkAccent&quot; viewBox=&quot;0 0 32 32&quot;&gt;

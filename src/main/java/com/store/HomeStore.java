@@ -2,44 +2,65 @@ package com.store;
 
 import java.io.Serializable;
 
-import javax.ejb.Stateful;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 @ManagedBean(name = "homeStore", eager = true)
-@Stateful(
-	description = "This bean is used to manage home page states."
-)
 @SessionScoped
 public class HomeStore implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private boolean darkTheme = true;
-	private boolean navOpen = false;
 	private boolean isLoggedIn = false;
 	private String loginToken = "";
+	private String userEmail = null;
+	private String userName = null;
 	
-	public boolean getDarkTheme() {
-		return darkTheme;
+	private boolean showMainLoader = false;
+	private String mainLoaderMessage = "Hello World ..." ;
+
+	public String getMainLoaderMessage() {
+		return mainLoaderMessage;
+	}
+
+	public void setMainLoaderMessage(String mainLoaderMessage) {
+		this.mainLoaderMessage = mainLoaderMessage;
+	}
+
+	public boolean isShowMainLoader() {
+		return showMainLoader;
+	}
+
+	public void setShowMainLoader(boolean showMainLoader) {
+		this.showMainLoader = showMainLoader;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	@PostConstruct
+	public void init() {
+		System.out.println("HomeStore post-construct initilized");
 	}
 	
-	public void setDarkTheme(boolean darkTheme) {
-		this.darkTheme = darkTheme;
+	public String getUserEmail() {
+		return userEmail;
 	}
-	
-	public boolean getNavOpen() {
-		return navOpen;
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
-	
-	public void setNavOpen(boolean navOpen) {
-		this.navOpen = navOpen;
-	}
-	
-	public boolean getLoggedIn() {
+
+	public boolean getIsLoggedIn() {
 		return isLoggedIn;
 	}
 	
-	public void setLoggedIn(boolean isLoggedIn) {
+	public void setIsLoggedIn(boolean isLoggedIn) {
 		this.isLoggedIn = isLoggedIn;
 	}
 	
@@ -49,10 +70,5 @@ public class HomeStore implements Serializable {
 	
 	public void setLoginToken(String loginToken) {
 		this.loginToken = loginToken;
-	}
-	
-	public void toggleTheme() {
-		System.out.println(darkTheme);
-		setDarkTheme(!darkTheme);
 	}
 }

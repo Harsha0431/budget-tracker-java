@@ -18,17 +18,19 @@ public class LoginService implements LoginRemote {
 
 	@Override
 	public List<String> verifyUserLoginDetails(String email, String password) {
-		String correctPassword = getPassword(email);
+		List<String> result = getPassword(email);
 		List<String> response = new ArrayList<>();
 		String message = null , status = null;
-		if(correctPassword == null) {
+		if(result.size() == 0) {
 			message = "Invalid email or user not found";
 			status = "error";
 		}
 		else {
+			String correctPassword = result.get(0);
 			if(password.matches(correctPassword)) {
 				message = "Login successful";
 				status = "success";
+				
 			}
 			else {
 				message = "Invalid password";
@@ -37,24 +39,31 @@ public class LoginService implements LoginRemote {
 		}
 		response.add(message);
 		response.add(status);
+		if(status.equals("success"))
+			response.add(result.get(1));
 		return response;
 	}
 
 	@Override
-	public String getPassword(String email) {
+	public List<String> getPassword(String email) {
 		EntityManager manager = null;
+		List<String> list = new ArrayList<>();
 		try {
 			manager = emf.createEntityManager();
 			manager.getTransaction().begin();
-			String query = "SELECT u.password from LoginEntity u where u.email=:email";
+			String query = "SELECT u.password, u.name from LoginEntity u where u.email=:email";
 			Query q = (Query) manager.createQuery(query);
 			q.setParameter("email", email);
-			String password = (String) q.getSingleResult();
-			return password;
+			Object[] result = (Object[]) q.getSingleResult();
+			String password = (String) result[0];
+			String name = (String) result[1];
+			list.add(password);
+			list.add(name);
+			return list;
 		}
 		catch(Exception e) {
 			System.out.println("Caught error in getting password: " + e.getMessage());
-			return null;
+			return list;
 		}
 		finally {
 			if(manager!=null)

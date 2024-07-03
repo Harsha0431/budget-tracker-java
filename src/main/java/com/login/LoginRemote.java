@@ -8,5 +8,5 @@ import javax.ejb.Remote;
 public interface LoginRemote {
 	public List<String> verifyUserLoginDetails(String email, String password);
 	
-	public String getPassword(String email);
+	public List<String> getPassword(String email);
 }
