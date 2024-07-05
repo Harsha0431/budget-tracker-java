@@ -204,6 +204,9 @@ public class AuthModel implements Serializable {
 			registerMessage = response.get(0);
 			registerMessageType = response.get(1);
 			if(registerMessageType.equals("success")) {
+				registerEmail = null;
+				registerPassword = null;
+				registerName = null;
 				registerMessage = "Registered successfully. Please login to continue";
 			}
 		}

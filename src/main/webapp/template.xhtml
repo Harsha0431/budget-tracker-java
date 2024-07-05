@@ -64,6 +64,90 @@
             localStorage.setItem('theme', isDark);
         }
     </script>
+    
+    <script>
+    	function toggleSidebar() {
+	        var sidenav = document.getElementById('dashboard__sidenav');
+	        var content = document.getElementById('dashboard__content');
+	        var contentSidebarIcon = document.getElementById('content__side_bar_toggle_icon');
+	
+	        if (sidenav.classList.contains('close_sidebar')) {
+	            sidenav.classList.remove('close_sidebar');
+	            sidenav.classList.add('open_sidebar');
+	            content.classList.remove('w-full');
+	            contentSidebarIcon.classList.add('hidden');
+	        } else {
+	            sidenav.classList.remove('open_sidebar');
+	            content.classList.add('w-full');
+	            sidenav.classList.add('close_sidebar');
+	            contentSidebarIcon.classList.remove('hidden');
+	        }
+	    }
+
+    	function checkWindowSize() {
+    	    var sidenav = document.getElementById('dashboard__sidenav') || null;
+    	    var content = document.getElementById('dashboard__content') || null;
+    	    var contentSidebarIcon = document.getElementById('content__side_bar_toggle_icon');
+
+    	    var innerWidth = window.innerWidth;
+
+    	    if (innerWidth &lt; 640) {
+    	        if (sidenav!=null &amp;&amp; !sidenav.classList.contains('close_sidebar')) {
+    	            sidenav.classList.add('close_sidebar');
+    	            sidenav.classList.remove('open_sidebar');
+    	            content.classList.add('w-full');
+    	            sidenav.classList.add('absolute');
+    	            sidenav.classList.add('top-0');
+    	            contentSidebarIcon.classList.remove('hidden');
+    	        }
+    	    }
+    	    else{
+    	    	sidenav.classList.remove('absolute');
+	            sidenav.classList.remove('top-0');
+        	}
+    	}
+
+    	window.addEventListener('resize', checkWindowSize);
+
+    	checkWindowSize();
+    </script>
+    
+    <style>
+	    .close_sidebar {
+	        animation: animate_close_sidebar 300ms linear forwards;
+	    }
+	
+	    @keyframes animate_close_sidebar {
+	        from {
+	            margin-left: 0px; 
+	        }
+	        to {
+	            margin-left: -310px;
+	        }
+	    }
+	
+	    .open_sidebar {
+	        animation: animate_open_sidebar 300ms linear forwards;
+	    }
+	
+	    @keyframes animate_open_sidebar {
+	        from {
+	            margin-left: -310px;
+	        }
+	        to {
+	            margin-left: 0px;
+	        }
+	    }
+	
+	    .transition-width {
+	        transition: width 300ms linear;
+	    }
+	
+	    .w-full {
+	        width: 100% !important;
+	    }
+	</style>
+
 </h:head>
 <h:body id="main__body" styleClass="w-[100dvw] font-customBody overflow-x-hidden">
 	<h:panelGroup layout="block" styleClass="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText w-full min-h-[100dvh] h-full flex flex-col">
@@ -73,7 +157,7 @@
 	        </ui:insert>
 	    </h:panelGroup>
 
-	    <h:panelGroup layout="block" id="content">
+	    <h:panelGroup layout="block" id="content" styleClass="flex flex-1 min-h-[85dvh]">
 	        <ui:insert name="content">
 	            <h:outputText value="Default Content" />
 	        </ui:insert>

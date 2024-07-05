@@ -25,7 +25,6 @@ public class RegisterService implements RegisterRemote {
 		EntityTransaction transaction = manager.getTransaction();
 		try {
 			transaction.begin();
-			System.out.println("CHECK 1");
 			manager.persist(user);
 			transaction.commit();
 			response.add("User regested successfylly.");

@@ -6,7 +6,34 @@
 
 	<ui:composition template="/template.xhtml">
 		<ui:define name="content">		
-			<div>Dashboard</div>
+			<h:panelGroup layout="block" id="dashboard__body" styleClass="dashboard__body relative mb-2 flex gap-x-3 max-ssm:gap-x-1.5 flex-1 px-2">
+				<h:panelGroup layout="block" id="dashboard__sidenav"
+					styleClass="dashboard__sidenav overflow-x-hidden h-full w-full max-w-[300px] bg-darkText shadow-md shadow-darkText/50 dark:shadow-lightText/50 dark:bg-[#1a191f] rounded-lg px-3 py-1.5"
+				>
+					<h:panelGroup layout="block">
+						<button onclick="toggleSidebar()">
+							<h:outputText escape="false" value="&lt;svg xmlns='http://www.w3.org/2000/svg' class='size-8 stroke-lightAccent dark:stroke-darkAccent text-lightSecondary dark:text-darkSecondary' viewBox='0 0 24 24'&gt;
+								&lt;path fill='none' stroke='inherit' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M2 12c0-3.69 0-5.534.814-6.841a4.8 4.8 0 0 1 1.105-1.243C5.08 3 6.72 3 10 3h4c3.28 0 4.919 0 6.081.916c.43.338.804.759 1.105 1.243C22 6.466 22 8.31 22 12s0 5.534-.814 6.841a4.8 4.8 0 0 1-1.105 1.243C18.92 21 17.28 21 14 21h-4c-3.28 0-4.919 0-6.081-.916a4.8 4.8 0 0 1-1.105-1.243C2 17.534 2 15.69 2 12m7.5-9v18M5 7h1m-1 3h1' /&gt;
+								&lt;/svg&gt;"
+							/>   
+						</button>
+					</h:panelGroup>
+				</h:panelGroup>
+				<h:panelGroup layout="block" id="dashboard__content"
+					styleClass="dashboard__content relative w-full grow-1 flex-1 basis-full overflow-y-auto overflow-x-hidden rounded-lg px-1 py-1.5"
+				>
+					<h:panelGroup id="content__side_bar_toggle_icon" layout="block" styleClass="z-[150] absolute top-1 hidden">
+						<button onclick="toggleSidebar()">
+							<h:outputText escape="false" value="&lt;svg xmlns='http://www.w3.org/2000/svg' class='size-8 stroke-lightAccent dark:stroke-darkAccent text-lightSecondary dark:text-darkSecondary' viewBox='0 0 24 24'&gt;
+								&lt;path fill='none' stroke='inherit' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M2 12c0-3.69 0-5.534.814-6.841a4.8 4.8 0 0 1 1.105-1.243C5.08 3 6.72 3 10 3h4c3.28 0 4.919 0 6.081.916c.43.338.804.759 1.105 1.243C22 6.466 22 8.31 22 12s0 5.534-.814 6.841a4.8 4.8 0 0 1-1.105 1.243C18.92 21 17.28 21 14 21h-4c-3.28 0-4.919 0-6.081-.916a4.8 4.8 0 0 1-1.105-1.243C2 17.534 2 15.69 2 12m7.5-9v18M5 7h1m-1 3h1' /&gt;
+								&lt;/svg&gt;"
+							/>   
+						</button>
+					</h:panelGroup>
+					Content
+				</h:panelGroup>
+			</h:panelGroup>
 		</ui:define>
+		<ui:define name="footer"></ui:define>
 	</ui:composition>
 </html>
