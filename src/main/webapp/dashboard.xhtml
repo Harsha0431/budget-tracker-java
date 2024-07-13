@@ -15,8 +15,48 @@
 							<h:outputText escape="false" value="&lt;svg xmlns='http://www.w3.org/2000/svg' class='size-8 stroke-lightAccent dark:stroke-darkAccent text-lightSecondary dark:text-darkSecondary' viewBox='0 0 24 24'&gt;
 								&lt;path fill='none' stroke='inherit' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M2 12c0-3.69 0-5.534.814-6.841a4.8 4.8 0 0 1 1.105-1.243C5.08 3 6.72 3 10 3h4c3.28 0 4.919 0 6.081.916c.43.338.804.759 1.105 1.243C22 6.466 22 8.31 22 12s0 5.534-.814 6.841a4.8 4.8 0 0 1-1.105 1.243C18.92 21 17.28 21 14 21h-4c-3.28 0-4.919 0-6.081-.916a4.8 4.8 0 0 1-1.105-1.243C2 17.534 2 15.69 2 12m7.5-9v18M5 7h1m-1 3h1' /&gt;
 								&lt;/svg&gt;"
-							/>   
+							/>
 						</button>
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="flex flex-col gap-y-4 mt-4 text-[calc(14px+0.2dvw)] text-lightText/[0.8] dark:text-darkText/[0.8] font-semibold">
+						<h:form styleClass="h-fit">					
+							<h:commandLink action="#{dashboard.activatePage('home')}" styleClass="cursor-pointer flex gap-x-1 justify-start items-center hover:text-lightText dark:hover:text-darkText transition-all">
+								<h:outputText value="Home" />
+							</h:commandLink>
+						</h:form>
+						<h:form styleClass="h-fit">					
+							<h:commandLink action="#{dashboard.activatePage('manageIncome')}" styleClass="cursor-pointer flex gap-x-1 justify-start items-center hover:text-lightText dark:hover:text-darkText transition-all">
+								<!-- <h:outputText escape="false" value="
+									&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;size-8 stroke-lightAccent dark:stroke-darkAccent&quot; viewBox=&quot;0 0 14 14&quot;&gt;
+									    &lt;g fill=&quot;none&quot; stroke=&quot;current&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+									        &lt;ellipse cx=&quot;9&quot; cy=&quot;5.5&quot; rx=&quot;4.5&quot; ry=&quot;2&quot;/&gt;
+									        &lt;path d=&quot;M4.5 5.5v6c0 1.1 2 2 4.5 2s4.5-.9 4.5-2v-6&quot;/&gt;
+									        &lt;path d=&quot;M13.5 8.5c0 1.1-2 2-4.5 2s-4.5-.9-4.5-2m4.4-7A6.77 6.77 0 0 0 5 .5C2.51.5.5 1.4.5 2.5c0 .59.58 1.12 1.5 1.5&quot;/&gt;
+									        &lt;path d=&quot;M2 10C1.08 9.62.5 9.09.5 8.5v-6&quot;/&gt;
+									        &lt;path d=&quot;M2 7C1.08 6.62.5 6.09.5 5.5&quot;/&gt;
+									    &lt;/g&gt;
+									&lt;/svg&gt;" />  -->
+								<h:outputText value="Manage Income" />
+							</h:commandLink>
+						</h:form>
+						<h:form styleClass="h-fit">
+							<h:commandLink action="#{dashboard.activatePage('manageExpenses')}" styleClass="cursor-pointer flex gap-x-1 justify-start items-center hover:text-lightText dark:hover:text-darkText transition-all">
+								<!-- <h:outputText escape="false" value='
+								    &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;size-8 stroke-[2.5] stroke-lightAccent dark:stroke-darkAccent&quot; viewBox=&quot;0 0 48 48&quot;&gt;
+							        &lt;path fill=&quot;none&quot; stroke=&quot;current&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M9.386 9.648A20.4 20.4 0 0 1 24 3.503c11.294 0 20.45 9.155 20.45 20.449S35.294 44.402 24 44.402S3.55 35.246 3.55 23.952c0-3.946 1.119-7.631 3.055-10.756&quot;/&gt;
+							        &lt;path fill=&quot;none&quot; stroke=&quot;current&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M30.819 23.824a2.193 2.193 0 0 1-4.387 0v0c0-1.211.982-2.193 2.193-2.193h.001c1.211 0 2.193.982 2.193 2.193&quot;/&gt;
+							        &lt;path fill=&quot;none&quot; stroke=&quot;current&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M24.649 17.04h10.71a2.78 2.78 0 0 1 2.786 2.773v8.01a2.78 2.78 0 0 1-2.774 2.785H24.649a2.78 2.78 0 0 1-2.786-2.773v-8.01a2.78 2.78 0 0 1 2.774-2.786z&quot;/&gt;
+							        &lt;path fill=&quot;none&quot; stroke=&quot;current&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M35.85 30.562v2.75a2.78 2.78 0 0 1-2.773 2.787H14.41a2.78 2.78 0 0 1-2.786-2.774V14.592a2.78 2.78 0 0 1 2.774-2.786h18.665a2.78 2.78 0 0 1 2.785 2.774v2.504M1.45 16.563l5.395-3.952l.725 6.648&quot;/&gt;
+								    &lt;/svg&gt;'
+								/>  -->
+								<h:outputText value="Manage Expenses" />
+							</h:commandLink>
+						</h:form>
+						<h:form styleClass="h-fit">					
+							<h:commandLink action="#{dashboard.activatePage('viewReports')}" styleClass="cursor-pointer flex gap-x-1 justify-start items-center hover:text-lightText dark:hover:text-darkText transition-all">
+								<h:outputText value="View Reports" />
+							</h:commandLink>
+						</h:form>
 					</h:panelGroup>
 				</h:panelGroup>
 				<h:panelGroup layout="block" id="dashboard__content"
@@ -30,7 +70,7 @@
 							/>   
 						</button>
 					</h:panelGroup>
-					Content
+					<h:outputText value="#{dashboard.activePage}"></h:outputText>
 				</h:panelGroup>
 			</h:panelGroup>
 		</ui:define>
