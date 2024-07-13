@@ -21,6 +21,7 @@
 					<h:panelGroup layout="block" styleClass="flex flex-col gap-y-4 mt-4 text-[calc(14px+0.2dvw)] text-lightText/[0.8] dark:text-darkText/[0.8] font-semibold">
 						<h:form styleClass="h-fit">					
 							<h:commandLink action="#{dashboard.activatePage('home')}" styleClass="cursor-pointer flex gap-x-1 justify-start items-center hover:text-lightText dark:hover:text-darkText transition-all">
+								<f:ajax render=":dashboard__content" />
 								<h:outputText value="Home" />
 							</h:commandLink>
 						</h:form>
@@ -36,6 +37,7 @@
 									        &lt;path d=&quot;M2 7C1.08 6.62.5 6.09.5 5.5&quot;/&gt;
 									    &lt;/g&gt;
 									&lt;/svg&gt;" />  -->
+								<f:ajax render=":dashboard__content" />
 								<h:outputText value="Manage Income" />
 							</h:commandLink>
 						</h:form>
@@ -49,11 +51,13 @@
 							        &lt;path fill=&quot;none&quot; stroke=&quot;current&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M35.85 30.562v2.75a2.78 2.78 0 0 1-2.773 2.787H14.41a2.78 2.78 0 0 1-2.786-2.774V14.592a2.78 2.78 0 0 1 2.774-2.786h18.665a2.78 2.78 0 0 1 2.785 2.774v2.504M1.45 16.563l5.395-3.952l.725 6.648&quot;/&gt;
 								    &lt;/svg&gt;'
 								/>  -->
+								<f:ajax render=":dashboard__content" />
 								<h:outputText value="Manage Expenses" />
 							</h:commandLink>
 						</h:form>
 						<h:form styleClass="h-fit">					
 							<h:commandLink action="#{dashboard.activatePage('viewReports')}" styleClass="cursor-pointer flex gap-x-1 justify-start items-center hover:text-lightText dark:hover:text-darkText transition-all">
+								<f:ajax render=":dashboard__content" />
 								<h:outputText value="View Reports" />
 							</h:commandLink>
 						</h:form>
@@ -70,7 +74,18 @@
 							/>   
 						</button>
 					</h:panelGroup>
-					<h:outputText value="#{dashboard.activePage}"></h:outputText>
+					<h:panelGroup rendered="#{dashboard.activePage == 'home'}">
+				        <ui:include src="/dashboard-home.xhtml" />
+				    </h:panelGroup>
+				    <h:panelGroup rendered="#{dashboard.activePage == 'manageIncome'}">
+				        <ui:include src="/manage-income.xhtml" />
+				    </h:panelGroup>
+				    <h:panelGroup rendered="#{dashboard.activePage == 'manageExpenses'}">
+				        <ui:include src="/manage-expenses.xhtml" />
+				    </h:panelGroup>
+				    <h:panelGroup rendered="#{dashboard.activePage == 'viewReports'}">
+				        <ui:include src="/view-reports.xhtml" />
+				    </h:panelGroup>
 				</h:panelGroup>
 			</h:panelGroup>
 		</ui:define>
