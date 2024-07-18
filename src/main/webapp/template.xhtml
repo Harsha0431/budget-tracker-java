@@ -76,11 +76,20 @@
 	            sidenav.classList.add('open_sidebar');
 	            content.classList.remove('w-full');
 	            contentSidebarIcon.classList.add('hidden');
+	            
 	        } else {
 	            sidenav.classList.remove('open_sidebar');
 	            content.classList.add('w-full');
 	            sidenav.classList.add('close_sidebar');
 	            contentSidebarIcon.classList.remove('hidden');
+	            if (innerWidth &lt; 640) {
+	            	sidenav.classList.add('absolute');
+    	            sidenav.classList.add('top-0');
+		        }
+	            else{
+	            	sidenav.classList.remove('absolute');
+    	            sidenav.classList.remove('top-0');
+		        }
 	        }
 	    }
 
@@ -88,7 +97,6 @@
     	    var sidenav = document.getElementById('dashboard__sidenav') || null;
     	    var content = document.getElementById('dashboard__content') || null;
     	    var contentSidebarIcon = document.getElementById('content__side_bar_toggle_icon');
-
     	    var innerWidth = window.innerWidth;
 
     	    if (innerWidth &lt; 640) {
@@ -108,6 +116,7 @@
     	}
 
     	window.addEventListener('resize', checkWindowSize);
+    	document.addEventListener('DOMContentLoaded', checkWindowSize);
 
     	checkWindowSize();
     </script>

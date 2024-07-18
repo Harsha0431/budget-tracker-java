@@ -8,3 +8,15 @@ create table user(
     name varchar(500) not null,
     constraint pk_user primary key(email)
 );
+
+create table income(
+	id bigint auto_increment not null,
+    user_email varchar(500) not null,
+    created_at timestamp not null default current_timestamp,
+    amount decimal(20, 3) not null,
+    description varchar(1000) not null,
+    allocated_month smallint not null,
+    allocated_year int not null,
+    constraint fk_income_user foreign key(user_email) references user(email) on delete cascade on update cascade,
+    constraint pk_income primary key(id)
+);

@@ -5,6 +5,31 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
 	<ui:composition>
-		<h:outputText value="#{dashboard.activePage}" />
+		<h:panelGroup layout="block" styleClass="flex flex-col gap-y-3 max-ssm:gap-y-2">
+			<h:panelGroup layout="block" styleClass="flex justify-center items-center flex-wrap mt-3">
+				<h:panelGroup layout="block" styleClass="flex gap-x-3 gap-y-2 justify-center items-center flex-wrap text-[calc(14px+0.2dvw)]">
+					<h:form>
+						<h:commandButton action="#{dashboard.changeManageIncomeActive('addNewIncome')}" rendered="#{dashboard.manageIncomeActive != 'addNewIncome'}" value="Add New Income" styleClass="cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md dark:bg-[#4b246a4d] dark:hover:shadow-[#4b246a4d] hover:shadow-inner hover:shadow-[#bb95db4c] bg-[#bb95db4c] hover:-translate-y-1 transition-all shadow-md">
+						</h:commandButton>
+						<h:commandButton action="#{dashboard.changeManageIncomeActive('addNewIncome')}" rendered="#{dashboard.manageIncomeActive == 'addNewIncome'}" value="Add New Income" styleClass="cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md text-darkText dark:bg-darkPrimary dark:hover:shadow-darkPrimary hover:shadow-2xl bg-lightPrimary hover:-translate-y-1 transition-all shadow-md">
+						</h:commandButton>
+					</h:form>
+					<h:form>
+						<h:commandButton action="#{dashboard.changeManageIncomeActive('viewIncomeHistory')}" rendered="#{dashboard.manageIncomeActive != 'viewIncomeHistory'}" value="View Income History" styleClass="cursor-pointer py-[0.5em] px-[2em] rounded-md dark:bg-[#4b246a4d] text-wrap dark:hover:shadow-[#4b246a4d] hover:shadow-inner hover:shadow-[#bb95db4c] bg-[#bb95db4c] hover:-translate-y-1 transition-all shadow-md">
+						</h:commandButton>
+						<h:commandButton action="#{dashboard.changeManageIncomeActive('viewIncomeHistory')}" rendered="#{dashboard.manageIncomeActive == 'viewIncomeHistory'}" value="View Income History" styleClass="cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md text-darkText dark:bg-darkPrimary dark:hover:shadow-darkPrimary hover:shadow-2xl bg-lightPrimary hover:-translate-y-1 transition-all shadow-md">
+						</h:commandButton>
+					</h:form>
+				</h:panelGroup>
+			</h:panelGroup>
+			<h:panelGroup layout="block" id="dashboard__manage_income__content" styleClass="w-full flex-1">
+				<h:panelGroup rendered="#{dashboard.manageIncomeActive == 'addNewIncome'}">
+					<ui:include src="/manage-income-add.xhtml" />
+				</h:panelGroup>
+				<h:panelGroup rendered="#{dashboard.manageIncomeActive == 'viewIncomeHistory'}">
+					<ui:include src="/manage-income-history.xhtml" />
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
 	</ui:composition>
 </html>

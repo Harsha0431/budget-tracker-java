@@ -1,11 +1,17 @@
 package com.login;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.model.IncomeEntity;
 
 @Entity
 @Table(name = "user")
@@ -19,6 +25,17 @@ public class LoginEntity implements Serializable {
 	@Column(name="name")
 	String name;
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<IncomeEntity> incomes;
+	
+	public List<IncomeEntity> getIncomes() {
+		return incomes;
+	}
+
+	public void setIncomes(List<IncomeEntity> incomes) {
+		this.incomes = incomes;
+	}
+
 	public String getName() {
 		return name;
 	}

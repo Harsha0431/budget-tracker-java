@@ -3,5 +3,12 @@
 	<persistence-unit name="budgetTracker" transaction-type="RESOURCE_LOCAL">
 		<non-jta-data-source>java:/MySqlBudgetTracker</non-jta-data-source>
 		<class>com.login.LoginEntity</class>
+		<class>com.model.IncomeEntity</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.password" value="Elliegoulding@1173"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ee_budget_tracker"/>
+		</properties>
 	</persistence-unit>
 </persistence>
