@@ -3,6 +3,7 @@ package com.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.login.LoginEntity;
 
@@ -31,7 +33,7 @@ public class IncomeEntity implements Serializable {
     @Column(name = "created_at", nullable = true)
     private LocalDateTime createdAt;
     
-    @Column(name = "amount", nullable = false, precision = 20, scale = 3)
+    @Column(name = "amount", nullable = false, precision = 15, scale = 2)
     private BigDecimal amount;
 
     @Column(name = "description", nullable = false, length = 1000)
@@ -42,6 +44,25 @@ public class IncomeEntity implements Serializable {
 
     @Column(name = "allocated_year", nullable = false)
     private int allocatedYear;
+    
+    public enum Month {
+    	January,
+        February,
+        March,
+        April,
+        May,
+        June,
+        July,
+        August,
+        September,
+        October,
+        November,
+        December;
+
+        public static Month fromIndex(int index) {
+            return Month.values()[index - 1];
+        }
+    }
 
 	public Long getId() {
 		return id;
@@ -98,5 +119,14 @@ public class IncomeEntity implements Serializable {
 	public void setAllocatedYear(int allocatedYear) {
 		this.allocatedYear = allocatedYear;
 	}
-    
+	@Transient
+	public String getMonthName(int index) {
+		return Month.fromIndex(index).name();
+	}
+	@Transient
+	public String getFormattedTimeStamp(LocalDateTime now) {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
+        String formatDateTime = now.format(format);  
+        return formatDateTime;
+	}
 }

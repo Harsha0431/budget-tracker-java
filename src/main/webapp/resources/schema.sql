@@ -13,7 +13,7 @@ create table income(
 	id bigint auto_increment not null,
     user_email varchar(500) not null,
     created_at timestamp not null default current_timestamp,
-    amount decimal(20, 3) not null,
+    amount decimal(15, 2) not null,
     description varchar(1000) not null,
     allocated_month smallint not null,
     allocated_year int not null,

@@ -161,6 +161,11 @@
 		  border-radius: 100px;
 		}
 		
+		.custom_scrollbar__hidden::-webkit-scrollbar {
+		  width: 4px;
+		  height: 0px;
+		}
+		
 		/* Track */
 		.custom_scrollbar::-webkit-scrollbar-track {
 		  background: transparent;
@@ -180,6 +185,44 @@
 		
 		.dropdown-menu option{
 			color: black;
+		}
+		
+		.income-history_table thead{
+			padding: 6px 4px;
+		}
+		.income-history_table thead th{
+			text-align: left;
+		}
+		.income-history_table {
+		  	border-collapse: separate;
+		  	border-spacing: 0 10px;
+		}
+		.income-history_table tbody tr{
+			display: table-row;
+			position: relative;
+			border-radius: 10px;
+			border-width: 1px;
+			border-color: transparent;
+			overflow: hidden;
+			width: 100%;
+		}
+		.income-history_table tbody tr {
+		 	background-color: rgb(4 3 7 / 0.06);
+			transition-property: all;
+			transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+			transition-duration: 150ms;
+		}
+		.income-history_table tbody tr:hover {
+		 	background-color: rgb(4 3 7 / 0.1);
+		}
+		body.dark .income-history_table tbody tr {
+		 	background-color: rgb(249 248 252 / 0.1);
+		}
+		body.dark .income-history_table tbody tr:hover {
+		 	background-color: rgb(249 248 252 / 0.15);
+		 	transition-property: all;
+			transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+			transition-duration: 150ms;
 		}
 	</style>
 

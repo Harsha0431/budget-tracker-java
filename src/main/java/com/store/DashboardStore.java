@@ -51,6 +51,7 @@ public class DashboardStore {
 	private String manageIncomeActive = "viewIncomeHistory";
 	private String manageIncomeFormMessage;
 	private boolean manageIncomeFormMessageIsError = false;
+	private List<IncomeEntity> incomeTransactionList;
 	// Add Income
 	@NotNull(message = "Allocated year is required")
 	private int allocatedYear;
@@ -161,8 +162,18 @@ public class DashboardStore {
 				e.printStackTrace();
 			}
 		}
-		if(this.manageIncomeActive!=manageIncomeActive)
+		if(this.manageIncomeActive!=manageIncomeActive) {
+			if(manageIncomeActive.equalsIgnoreCase("viewIncomeHistory") && incomeTransactionList!=null && incomeTransactionList.size()==0) {
+				homeStore.setShowMainLoader(true);
+				if(homeStore.getUserEntity()==null) {
+					LoginEntity user = loginService.getUserLoginEntity(homeStore.getUserEmail());
+					homeStore.setUserEntity(user);
+				}
+				incomeTransactionList = manageIncomeController.getTransactionList(homeStore.getUserEntity());
+				homeStore.setShowMainLoader(false);
+			}
 			setManageIncomeActive(manageIncomeActive);
+		}
 	}
 
 	public int getAllocatedYear() {
@@ -200,9 +211,12 @@ public class DashboardStore {
 	public void handleAddIncomeClick() {
 		homeStore.setShowMainLoader(true);
 		homeStore.setMainLoaderMessage("Adding Income");
-		LoginEntity user = loginService.getUserLoginEntity(homeStore.getUserEmail());
+		if(homeStore.getUserEntity()==null) {
+			LoginEntity user = loginService.getUserLoginEntity(homeStore.getUserEmail());
+			homeStore.setUserEntity(user);
+		}
 		IncomeEntity income = new IncomeEntity();
-		income.setUser(user);
+		income.setUser(homeStore.getUserEntity());
 		income.setAllocatedMonth(allocatedMonth);
 		income.setAllocatedYear(allocatedYear);
 		income.setAmount(incomeAmmount);
@@ -211,6 +225,9 @@ public class DashboardStore {
 		List<String> response = manageIncomeController.addUserIncome(income);
 		manageIncomeFormMessage = response.get(1);
 		manageIncomeFormMessageIsError = !response.get(0).equalsIgnoreCase("success");
+		if(!manageIncomeFormMessageIsError) {
+			incomeTransactionList.add(0, income);
+		}
 		System.out.println("HANDLE ADD INCOME CLICK ~ RESPONSE: " + response.get(1));
 		homeStore.setShowMainLoader(false);
 		homeStore.setMainLoaderMessage(null);
@@ -239,5 +256,13 @@ public class DashboardStore {
 
 	public void setManageIncomeFormMessageIsError(boolean manageIncomeFormMessageIsError) {
 		this.manageIncomeFormMessageIsError = manageIncomeFormMessageIsError;
+	}
+
+	public List<IncomeEntity> getIncomeTransactionList() {
+		return incomeTransactionList;
+	}
+
+	public void setIncomeTransactionList(List<IncomeEntity> incomeTransactionList) {
+		this.incomeTransactionList = incomeTransactionList;
 	}
 }

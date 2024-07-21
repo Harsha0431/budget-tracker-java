@@ -5,6 +5,47 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
 	<ui:composition>
-		History
+		<h:panelGroup layout="block" styleClass="overflow-hidden w-full flex flex-col gap-y-2">
+			<h:panelGroup layout="block" rendered="#{dashboard.incomeTransactionList==null or dashboard.incomeTransactionList.size()==0}"
+				styleClass="flex justify-center mt-4 flex-col"
+			>
+				<h:outputText value="You have no income entries added." styleClass="text-[calc(18px+0.2dvw)] text-center font-semibold mb-2" />
+				<h:outputText value="Please add your first income to start tracking!" styleClass="text-[calc(14px+0.2dvw)] text-center text-opacity-[0.8]" />
+				<h:form styleClass="flex justify-center">
+					<h:commandButton value="Add Income" action="#{dashboard.changeManageIncomeActive('addNewIncome')}"
+						styleClass="mt-4 w-fit inline-block bg-lightPrimary dark:bg-darkPrimary hover:bg-lightPrimary/[0.90] dark:hover:bg-darkPrimary/[0.8] transition-all text-white font-bold py-2 px-4 rounded"
+					/>
+				</h:form>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{not (dashboard.incomeTransactionList==null or dashboard.incomeTransactionList.size()==0)}"
+                styleClass="flex flex-col gap-y-2 mt-4 custom_scrollbar__hidden overflow-auto ">
+                <h:dataTable value="#{dashboard.incomeTransactionList}" var="income" styleClass="income-history_table text-nowrap table-auto w-full">					
+					<h:column headerClass="w-[200px] text-nowrap">
+						<f:facet name="header">
+							<h:outputText value="Allocated Period" styleClass="px-4 py-2" />
+						</f:facet>
+						<h:outputText value="#{income.allocatedYear}, #{income.getMonthName(income.allocatedMonth)}" styleClass="capitalize text-base px-4 py-2" />
+					</h:column>
+					<h:column headerClass="w-[200px]">
+						<f:facet name="header">
+							<h:outputText value="Amount" styleClass="px-4 py-2" />
+						</f:facet>
+						<h:outputText value="#{income.amount}" styleClass="text-lg font-semibold px-4 py-2" />
+					</h:column>
+					<h:column headerClass="w-[200px]">
+						<f:facet name="header">
+							<h:outputText value="Recorded On" styleClass="px-4 py-2" />
+						</f:facet>
+						<h:outputText value="#{income.getFormattedTimeStamp(income.createdAt)}" styleClass="text-sm px-4 py-2" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Description" styleClass="px-4 py-2" />
+						</f:facet>
+						<h:outputText value="#{income.description}" styleClass="text-base px-4 py-2 line-clamp-1 hover:line-clamp-none" />
+					</h:column>
+				</h:dataTable>
+            </h:panelGroup>
+		</h:panelGroup>
 	</ui:composition>
 </html>

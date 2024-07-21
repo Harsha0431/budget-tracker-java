@@ -6,6 +6,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import com.login.AuthModel;
+import com.login.LoginEntity;
+
 @ManagedBean(name = "homeStore", eager = true)
 @SessionScoped
 public class HomeStore implements Serializable {
@@ -15,6 +18,7 @@ public class HomeStore implements Serializable {
 	private String loginToken = "";
 	private String userEmail = null;
 	private String userName = null;
+	private LoginEntity userEntity = null;
 	
 	private boolean showMainLoader = false;
 	private String mainLoaderMessage = "" ;
@@ -85,5 +89,13 @@ public class HomeStore implements Serializable {
 		}
 		else
 			return "login.jsf";
+	}
+
+	public LoginEntity getUserEntity() {
+		return userEntity;
+	}
+
+	public void setUserEntity(LoginEntity userEntity) {
+		this.userEntity = userEntity;
 	}
 }
