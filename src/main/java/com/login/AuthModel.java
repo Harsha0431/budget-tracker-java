@@ -15,7 +15,6 @@ import javax.validation.constraints.Size;
 import com.store.HomeStore;
 
 @ManagedBean(name = "authBean", eager = true)
-@Stateless
 @RequestScoped
 public class AuthModel implements Serializable {
 	private static final long serialVersionUID = 1L;

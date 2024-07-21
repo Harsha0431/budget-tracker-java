@@ -9,4 +9,6 @@ public interface LoginRemote {
 	public List<String> verifyUserLoginDetails(String email, String password);
 	
 	public List<String> getPassword(String email);
+	
+	public LoginEntity getUserLoginEntity(String email);
 }

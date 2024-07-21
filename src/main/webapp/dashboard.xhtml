@@ -6,7 +6,7 @@
 
 	<ui:composition template="/template.xhtml">
 		<ui:define name="content">		
-			<h:panelGroup layout="block" id="dashboard__body" styleClass="dashboard__body w-[100dvw] relative mb-2 flex gap-x-3 max-ssm:gap-x-1.5 flex-1 px-2">
+			<h:panelGroup layout="block" id="dashboard__body" styleClass="dashboard__body w-[100dvw] overflow-hidden h-[calc(100dvh-90px)] relative mb-2 flex gap-x-3 max-ssm:gap-x-1.5 flex-1 px-2">
 				<h:panelGroup layout="block" id="dashboard__sidenav"
 					styleClass="z-[150] dashboard__sidenav overflow-x-hidden h-full w-full max-w-[300px] bg-darkText shadow-md shadow-darkText/50 dark:shadow-lightText/50 dark:bg-[#1a191f] rounded-lg px-3 py-1.5"
 				>
@@ -19,10 +19,11 @@
 						</button>
 					</h:panelGroup>
 					<h:panelGroup layout="block" styleClass="flex flex-col gap-y-4 mt-4 text-[calc(14px+0.2dvw)] text-lightText/[0.8] dark:text-darkText/[0.8] font-semibold">
-						<h:form styleClass="h-fit">					
+						<h:form styleClass="sidenav__option h-fit">
 							<h:commandLink action="#{dashboard.activatePage('home')}" styleClass="cursor-pointer flex gap-x-1 justify-start items-center hover:text-lightText dark:hover:text-darkText transition-all">
-								<f:ajax render=":dashboard__content" />
-								<h:outputText value="Home" />
+								<f:ajax render=":dashboard__body" />
+								<h:outputText rendered="#{dashboard.activePage != 'home'}" value="Home" />
+								<h:outputText rendered="#{dashboard.activePage == 'home'}" value="Home" styleClass="text-lightAccent dark:text-darkAccent" />
 							</h:commandLink>
 						</h:form>
 						<h:form styleClass="h-fit">					
@@ -37,8 +38,9 @@
 									        &lt;path d=&quot;M2 7C1.08 6.62.5 6.09.5 5.5&quot;/&gt;
 									    &lt;/g&gt;
 									&lt;/svg&gt;" />  -->
-								<f:ajax render=":dashboard__content" />
-								<h:outputText value="Manage Income" />
+								<f:ajax render=":dashboard__body" />
+								<h:outputText rendered="#{dashboard.activePage != 'manageIncome'}" value="Manage Income" />
+								<h:outputText rendered="#{dashboard.activePage == 'manageIncome'}" value="Manage Income" styleClass="text-lightAccent dark:text-darkAccent" />
 							</h:commandLink>
 						</h:form>
 						<h:form styleClass="h-fit">
@@ -51,20 +53,22 @@
 							        &lt;path fill=&quot;none&quot; stroke=&quot;current&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M35.85 30.562v2.75a2.78 2.78 0 0 1-2.773 2.787H14.41a2.78 2.78 0 0 1-2.786-2.774V14.592a2.78 2.78 0 0 1 2.774-2.786h18.665a2.78 2.78 0 0 1 2.785 2.774v2.504M1.45 16.563l5.395-3.952l.725 6.648&quot;/&gt;
 								    &lt;/svg&gt;'
 								/>  -->
-								<f:ajax render=":dashboard__content" />
-								<h:outputText value="Manage Expenses" />
+								<f:ajax render=":dashboard__body" />
+								<h:outputText rendered="#{dashboard.activePage != 'manageExpenses'}" value="Manage Expenses" />
+								<h:outputText rendered="#{dashboard.activePage == 'manageExpenses'}" value="Manage Expenses" styleClass="text-lightAccent dark:text-darkAccent" />
 							</h:commandLink>
 						</h:form>
 						<h:form styleClass="h-fit">					
 							<h:commandLink action="#{dashboard.activatePage('viewReports')}" styleClass="cursor-pointer flex gap-x-1 justify-start items-center hover:text-lightText dark:hover:text-darkText transition-all">
-								<f:ajax render=":dashboard__content" />
-								<h:outputText value="View Reports" />
+								<f:ajax render=":dashboard__body" />
+								<h:outputText rendered="#{dashboard.activePage != 'viewReports'}" value="View Reports" />
+								<h:outputText rendered="#{dashboard.activePage == 'viewReports'}" value="View Reports" styleClass="text-lightAccent dark:text-darkAccent" />
 							</h:commandLink>
 						</h:form>
 					</h:panelGroup>
 				</h:panelGroup>
 				<h:panelGroup layout="block" id="dashboard__content"
-					styleClass="dashboard__content relative w-full grow-1 flex-1 overflow-y-auto overflow-x-hidden rounded-lg px-1 py-1.5"
+					styleClass="dashboard__content custom_scrollbar relative w-full h-full flex grow-1 flex-1 overflow-auto rounded-lg px-1 py-1.5"
 				>
 					<h:panelGroup id="content__side_bar_toggle_icon" layout="block" styleClass="z-[150] absolute top-1 max-vsm:left-2 hidden">
 						<button onclick="toggleSidebar()">
@@ -74,18 +78,20 @@
 							/>   
 						</button>
 					</h:panelGroup>
-					<h:panelGroup rendered="#{dashboard.activePage == 'home'}">
-				        <ui:include src="/dashboard-home.xhtml" />
-				    </h:panelGroup>
-				    <h:panelGroup rendered="#{dashboard.activePage == 'manageIncome'}">
-				        <ui:include src="/manage-income.xhtml" />
-				    </h:panelGroup>
-				    <h:panelGroup rendered="#{dashboard.activePage == 'manageExpenses'}">
-				        <ui:include src="/manage-expenses.xhtml" />
-				    </h:panelGroup>
-				    <h:panelGroup rendered="#{dashboard.activePage == 'viewReports'}">
-				        <ui:include src="/view-reports.xhtml" />
-				    </h:panelGroup>
+					<h:panelGroup layout="block" styleClass="dashboard__content_container flex flex-col flex-1 w-full h-full">
+						<h:panelGroup rendered="#{dashboard.activePage == 'home'}">
+					        <ui:include src="/dashboard-home.xhtml" />
+					    </h:panelGroup>
+					    <h:panelGroup rendered="#{dashboard.activePage == 'manageIncome'}">
+					        <ui:include src="/manage-income.xhtml" />
+					    </h:panelGroup>
+					    <h:panelGroup rendered="#{dashboard.activePage == 'manageExpenses'}">
+					        <ui:include src="/manage-expenses.xhtml" />
+					    </h:panelGroup>
+					    <h:panelGroup rendered="#{dashboard.activePage == 'viewReports'}">
+					        <ui:include src="/view-reports.xhtml" />
+					    </h:panelGroup>
+					</h:panelGroup>
 				</h:panelGroup>
 			</h:panelGroup>
 		</ui:define>

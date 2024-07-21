@@ -2,9 +2,129 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+>
 
 	<ui:composition>
-		Add Income
+		<h:panelGroup layout="block" styleClass="custom_scrollbar w-full flex-1 overflow-hidden flex h-full justify-center items-center mb-[60px]">
+			<h:panelGroup layout="block" styleClass="w-full max-w-[480px] px-10 py-8 max-md:px-8 max-md:py-6 max-ssm:px-6 max-ssm:py-4 border border-lightText dark:border-darkText rounded-xl shaow-inner">
+				<h:panelGroup id="add-income-form-container" layout="block" styleClass="max-w-[450px] w-full">
+					<h:form styleClass="flex flex-col gap-y-3">
+						<div class="flex flex-col gap-y-1 w-full">
+							<h:outputLabel
+							    for="income_amount"
+							    styleClass="cursor-text max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+								value="Amount"
+							/>
+							<h:inputText
+								id="income_amount"
+							    name="income_amount"
+							    type="number"
+							    value="#{dashboard.incomeAmmount}"
+							    required="true"
+							    requiredMessage="Amount is required"
+							    label="Enter income"
+							    styleClass="w-full border-b border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-inherit"
+							/>
+							<h:message styleClass="text-sm" for="income_amount" style="color:red;" />
+						</div>
+						<h:panelGroup layout="block" styleClass="flex gap-x-4 gap-y-3 max-vsm:flex-col justify-between">
+							<div class="flex flex-col gap-y-1 w-full">
+								<h:outputLabel
+								    for="income_year"
+								    styleClass="cursor-text max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+									value="Allocated Year"
+								/>
+								<h:inputText
+									id="income_year"
+								    name="income_year"
+								    type="number"
+								    value="#{dashboard.allocatedYear}"
+								    required="true"
+								    requiredMessage="Allocated year is required"
+								    label="Allocated year"
+								    styleClass="w-full border-b border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-inherit"
+								/>
+								<!-- <h:selectOneMenu value="#{dashboard.allocatedYear}"
+									id="income_year"
+								    name="income_year"							
+									styleClass="dropdown-menu w-full border-b border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-transparent"
+								>
+									<f:selectItems value="#{dashboard.incomeYearList}" var="year"
+   										itemLabel="#{year}" itemValue="#{year}" />
+								</h:selectOneMenu> -->
+								<h:message styleClass="text-sm" for="income_year" style="color:red;" />
+							</div>
+							<div class="flex flex-col gap-y-1 w-full">
+								<h:outputLabel
+								    for="income_month"
+								    styleClass="cursor-text max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+									value="Allocated Month"
+								/>
+								<!-- <h:inputText
+									id="income_month"
+								    name="income_month"
+								    value="#{dashboard.allocatedMonth}"
+								    required="true"
+								    requiredMessage="Allocated Month is required"
+								    label="Allocated Month"
+								    styleClass="w-full border-b border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-inherit"
+								/>  -->
+								<h:selectOneMenu
+									value="#{dashboard.allocatedMonth}"
+									id="income_month"
+								    name="income_month"
+									styleClass="dropdown-menu w-full border-b border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-transparent"
+								>
+									<f:selectItem itemLabel="January" itemValue="1" />
+								    <f:selectItem itemLabel="February" itemValue="2" />
+								    <f:selectItem itemLabel="March" itemValue="3" />
+								    <f:selectItem itemLabel="April" itemValue="4" />
+								    <f:selectItem itemLabel="May" itemValue="5" />
+								    <f:selectItem itemLabel="June" itemValue="6" />
+								    <f:selectItem itemLabel="July" itemValue="7" />
+								    <f:selectItem itemLabel="August" itemValue="8" />
+								    <f:selectItem itemLabel="September" itemValue="9" />
+								    <f:selectItem itemLabel="October" itemValue="10" />
+								    <f:selectItem itemLabel="November" itemValue="11" />
+								    <f:selectItem itemLabel="December" itemValue="12" />
+								</h:selectOneMenu>
+								<h:message styleClass="text-sm" for="income_month" style="color:red;" />
+							</div>
+						</h:panelGroup>
+						<div class="flex flex-col gap-y-1 w-full">
+							<h:outputLabel
+							    for="income_description"
+							    styleClass="cursor-text max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+								value="Description"
+							/>
+							<h:inputTextarea
+								id="income_description"
+							    name="income_description"
+							    value="#{dashboard.incomeDescription}"
+							    a:placeholder="Detail the income source"
+								styleClass="custom_scrollbar w-full border-b dark:placeholder:text-darkText/50 border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-inherit"
+							/>
+							<h:message styleClass="text-sm" for="income_description" style="color:red;" />
+						</div>
+						<h:panelGroup layout="block" styleClass="py-3 w-full items-center flex flex-wrap justify-center gap-x-4 gap-y-2">
+							<h:commandButton type="button" action="#{dashboard.handleResetIncomeFormClick()}" value="Reset"
+								styleClass="w-full order-2 cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md dark:bg-[#4b246a4d] dark:hover:shadow-[#4b246a4d] hover:shadow-inner hover:shadow-[#bb95db4c] bg-[#bb95db4c] transition-all shadow-md"
+							>
+								<f:ajax execute="@form" render=":add-income-form-container"></f:ajax>
+							</h:commandButton>
+							<h:commandButton type="submit" action="#{dashboard.handleAddIncomeClick()}" value="Add Income"
+								styleClass="w-full order-1 cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md text-darkText dark:bg-darkPrimary dark:hover:shadow-darkPrimary hover:shadow-inner bg-lightPrimary transition-all shadow-md"
+							/>
+						</h:panelGroup>
+						<span>
+							<h:outputText value="#{dashboard.manageIncomeFormMessage}" rendered="#{dashboard.manageIncomeFormMessageIsError}" style="color: red;" />
+							<h:outputText value="#{dashboard.manageIncomeFormMessage}" rendered="#{!dashboard.manageIncomeFormMessageIsError}" style="color: green;" />
+						</span>
+					</h:form>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
 	</ui:composition>
 </html>

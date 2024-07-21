@@ -15,8 +15,7 @@ import com.model.IncomeEntity;
 @Stateless
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class ManageIncomeController implements ManageIncomeRemote {
-	
-	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("ee_budget_tracker");
+	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("budgetTracker");
 	
 	@Override
 	public List<String> addUserIncome(IncomeEntity income) {

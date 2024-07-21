@@ -155,11 +155,37 @@
 	    .w-full {
 	        width: 100% !important;
 	    }
+	    
+	    .custom_scrollbar::-webkit-scrollbar {
+		  width: 4px;
+		  border-radius: 100px;
+		}
+		
+		/* Track */
+		.custom_scrollbar::-webkit-scrollbar-track {
+		  background: transparent;
+		  border-radius: 100px;
+		}
+		
+		/* Handle */
+		.custom_scrollbar::-webkit-scrollbar-thumb {
+		  background: #888;
+		  border-radius: 100px;
+		}
+		
+		/* Handle on hover */
+		.custom_scrollbar::-webkit-scrollbar-thumb:hover {
+		  background: #9e9e9e;
+		}
+		
+		.dropdown-menu option{
+			color: black;
+		}
 	</style>
 
 </h:head>
-<h:body id="main__body" styleClass="w-[100dvw] font-customBody overflow-x-hidden">
-	<h:panelGroup layout="block" styleClass="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText w-full min-h-[100dvh] h-full flex flex-col">
+<h:body id="main__body" styleClass="w-[100dvw] custom_scrollbar font-customBody overflow-x-hidden">
+	<h:panelGroup layout="block" styleClass="dark:bg-darkBg custom_scrollbar bg-lightBg dark:text-darkText text-lightText w-full min-h-[100dvh] h-full flex flex-col">
 		<h:panelGroup layout="block" id="header">
 	        <ui:insert name="header">
 	        	<ui:include src="/header.xhtml" />
@@ -176,7 +202,7 @@
 	            <h:outputText value="Default Footer" />
 	        </ui:insert>
 	    </h:panelGroup>
-	    <h:panelGroup layout="block" id="navigation" styleClass="nav__container flex w-full h-max justify-center fixed bottom-0 z-[1000] bg-transparent px-2 overflow-hidden">
+	    <h:panelGroup layout="block" id="navigation" styleClass="nav__container flex w-full h-max justify-center fixed bottom-0 bg-transparent px-2 overflow-hidden">
 		    <ui:include src="/footerNav.xhtml" />
 	    </h:panelGroup>
 	    <h:panelGroup rendered="#{homeStore.showMainLoader}" layout="block" styleClass="main__loader w-[100dvw] h-[100dvh] z-[10000] absolute inset-0 backdrop-brightness-75">

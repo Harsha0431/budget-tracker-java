@@ -1,5 +1,6 @@
 package com.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -16,7 +17,9 @@ import com.login.LoginEntity;
 
 @Entity
 @Table(name = "income")
-public class IncomeEntity {
+public class IncomeEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -25,7 +28,7 @@ public class IncomeEntity {
     @JoinColumn(name = "user_email", nullable = false)
     private LoginEntity user;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = true)
     private LocalDateTime createdAt;
     
     @Column(name = "amount", nullable = false, precision = 20, scale = 3)

@@ -10,11 +10,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 @Stateless
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class LoginService implements LoginRemote {
-	private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("budgetTracker");
+	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("budgetTracker");
 
 	@Override
 	public List<String> verifyUserLoginDetails(String email, String password) {
@@ -68,6 +69,27 @@ public class LoginService implements LoginRemote {
 		finally {
 			if(manager!=null)
 				manager.close();
+		}
+	}
+
+	@Override
+	public LoginEntity getUserLoginEntity(String email) {
+		LoginEntity user = null;
+		EntityManager em = null;
+		try {
+			em = emf.createEntityManager();
+			TypedQuery<LoginEntity> query = em.createQuery("SELECT u from LoginEntity u where u.email=:email", LoginEntity.class);
+			query.setParameter("email", email);
+			user = query.getSingleResult();
+			return user;
+		}
+		catch(Exception e){
+	        System.err.println("Error fetching user login entity with email " + email + ": " + e.getMessage());
+			return null;
+		}
+		finally {
+			if(em.isOpen())
+				em.close();
 		}
 	}
 }
