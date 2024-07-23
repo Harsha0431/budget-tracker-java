@@ -29,7 +29,7 @@ public class ManageIncomeController implements ManageIncomeRemote {
 			em.getTransaction().commit();
 			response.add("success");
             response.add("Income added successfully");
-			return  response;
+			return response;
 		}
 		catch(Exception e) {
 			em.getTransaction().rollback();
@@ -46,15 +46,18 @@ public class ManageIncomeController implements ManageIncomeRemote {
 	}
 
 	@Override
-	public List<IncomeEntity> getTransactionList(LoginEntity userEntity) {
+	public List<IncomeEntity> getTransactionList(LoginEntity userEntity, int offset, int limit) {
 		List<IncomeEntity> response = null;
 		EntityManager em = emf.createEntityManager();
 		try {
 			em.getTransaction().begin();
 			TypedQuery<IncomeEntity> query = em.createQuery("SELECT i from IncomeEntity i where i.user=:user order by i.createdAt desc", IncomeEntity.class);
 			query.setParameter("user", userEntity);
+			query.setFirstResult(offset);
+			query.setMaxResults(limit);
 			response = query.getResultList();
 			em.getTransaction().commit();
+			System.out.println("getTransactionList() => " + response.size());
 			return response;
 		}
 		catch(Exception e) {
@@ -68,5 +71,18 @@ public class ManageIncomeController implements ManageIncomeRemote {
 				em.close();
 		}
 	}
-
+	
+	public List<IncomeEntity> addIncomeToUser(String userEmail, IncomeEntity incomeEntity) {
+		EntityManager entityManager = emf.createEntityManager();
+        LoginEntity user = entityManager.find(LoginEntity.class, userEmail);
+        if (user != null) {
+        	user.getIncomes().size();
+            incomeEntity.setUser(user);
+            user.getIncomes().add(incomeEntity);
+            entityManager.persist(incomeEntity);
+            entityManager.merge(user);
+            return user.getIncomes();
+        }
+        return null;
+    }
 }

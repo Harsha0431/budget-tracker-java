@@ -1,6 +1,7 @@
 package com.login;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,8 +27,8 @@ public class LoginEntity implements Serializable {
 	String name;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<IncomeEntity> incomes;
-	
+    private List<IncomeEntity> incomes = new LinkedList<IncomeEntity>();
+
 	public List<IncomeEntity> getIncomes() {
 		return incomes;
 	}
@@ -58,5 +59,13 @@ public class LoginEntity implements Serializable {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void addIncome(IncomeEntity income) {
+		this.incomes.add(income);
+	}
+	
+	public void removeIncome(IncomeEntity income) {
+		this.incomes.remove(income);
 	}
 }

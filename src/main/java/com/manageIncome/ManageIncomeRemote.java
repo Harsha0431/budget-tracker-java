@@ -10,5 +10,6 @@ import com.model.IncomeEntity;
 @Remote
 public interface ManageIncomeRemote {
 	public List<String> addUserIncome(IncomeEntity income);
-	public List<IncomeEntity> getTransactionList(LoginEntity userEntity);
+	public List<IncomeEntity> getTransactionList(LoginEntity userEntity, int offset, int limit);
+	public List<IncomeEntity> addIncomeToUser(String userEmail, IncomeEntity incomeEntity);
 }

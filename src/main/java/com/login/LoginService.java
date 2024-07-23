@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 @Stateless
 @TransactionManagement(value = TransactionManagementType.BEAN)
@@ -78,9 +77,10 @@ public class LoginService implements LoginRemote {
 		EntityManager em = null;
 		try {
 			em = emf.createEntityManager();
-			TypedQuery<LoginEntity> query = em.createQuery("SELECT u from LoginEntity u where u.email=:email", LoginEntity.class);
-			query.setParameter("email", email);
-			user = query.getSingleResult();
+			user = em.find(LoginEntity.class, email);
+			if (user != null) {
+				user.getIncomes().size();
+		    }
 			return user;
 		}
 		catch(Exception e){

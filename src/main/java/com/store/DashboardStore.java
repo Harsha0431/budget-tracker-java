@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -51,7 +52,9 @@ public class DashboardStore {
 	private String manageIncomeActive = "viewIncomeHistory";
 	private String manageIncomeFormMessage;
 	private boolean manageIncomeFormMessageIsError = false;
-	private List<IncomeEntity> incomeTransactionList;
+	private List<IncomeEntity> incomeTransactionList = new LinkedList<>();
+	private boolean haveMoreTransactions = true;
+	private int incomeTransactionListLimit = 4;
 	// Add Income
 	@NotNull(message = "Allocated year is required")
 	private int allocatedYear;
@@ -93,6 +96,8 @@ public class DashboardStore {
     		incomeYearList.add(currentYear);
     		currentYear+=1;
     	}
+    	if(manageIncomeActive.equalsIgnoreCase("viewIncomeHistory"))
+    		handleLoadTransactionList();
     }
 
 	public ArrayList<Integer> getIncomeYearList() {
@@ -153,6 +158,26 @@ public class DashboardStore {
 		this.manageIncomeActive = manageIncomeActive;
 	}
 	
+	public void handleLoadTransactionList() {
+		System.out.println("CAME HERE");
+		homeStore.setShowMainLoader(true);
+		if(homeStore.getUserEntity()==null) {
+			LoginEntity user = loginService.getUserLoginEntity(homeStore.getUserEmail());
+			homeStore.setUserEntity(user);
+		}
+		if(homeStore.getUserEntity()!=null) {
+			int prevLength = incomeTransactionList.size() + incomeTransactionListLimit;
+			List<IncomeEntity> data = manageIncomeController.getTransactionList(homeStore.getUserEntity(), incomeTransactionList.size(), incomeTransactionListLimit);
+			if(incomeTransactionList.size()==0)
+				incomeTransactionList = data;
+			else
+				incomeTransactionList.addAll(data);
+			haveMoreTransactions = (incomeTransactionList.size() >= prevLength);
+		}
+		homeStore.setShowMainLoader(false);
+		setManageIncomeActive(manageIncomeActive);
+	}
+	
 	public void changeManageIncomeActive(String manageIncomeActive) {
 		if(!homeStore.getIsLoggedIn()) {
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -163,17 +188,13 @@ public class DashboardStore {
 			}
 		}
 		if(this.manageIncomeActive!=manageIncomeActive) {
-			if(manageIncomeActive.equalsIgnoreCase("viewIncomeHistory") && incomeTransactionList!=null && incomeTransactionList.size()==0) {
-				homeStore.setShowMainLoader(true);
-				if(homeStore.getUserEntity()==null) {
-					LoginEntity user = loginService.getUserLoginEntity(homeStore.getUserEmail());
-					homeStore.setUserEntity(user);
-				}
-				incomeTransactionList = manageIncomeController.getTransactionList(homeStore.getUserEntity());
-				homeStore.setShowMainLoader(false);
-			}
-			setManageIncomeActive(manageIncomeActive);
+			if(manageIncomeActive.equalsIgnoreCase("viewIncomeHistory") && incomeTransactionList.size()==0)
+				handleLoadTransactionList();
 		}
+		else {
+			handleResetIncomeFormClick();
+		}
+		this.manageIncomeActive = manageIncomeActive;
 	}
 
 	public int getAllocatedYear() {
@@ -238,7 +259,6 @@ public class DashboardStore {
 		allocatedYear = LocalDate.now().getYear();
 		incomeAmmount = BigDecimal.ZERO;
 		incomeDescription = null;
-		System.out.println(allocatedMonth + " " + allocatedYear + " " + incomeAmmount + " " + incomeDescription);
 		System.out.println("HANDLE INCOME RESET CLICK");
 	}
 
@@ -264,5 +284,21 @@ public class DashboardStore {
 
 	public void setIncomeTransactionList(List<IncomeEntity> incomeTransactionList) {
 		this.incomeTransactionList = incomeTransactionList;
+	}
+
+	public int getIncomeTransactionListLimit() {
+		return incomeTransactionListLimit;
+	}
+
+	public void setIncomeTransactionListLimit(int incomeTransactionListLimit) {
+		this.incomeTransactionListLimit = incomeTransactionListLimit;
+	}
+
+	public boolean isHaveMoreTransactions() {
+		return haveMoreTransactions;
+	}
+
+	public void setHaveMoreTransactions(boolean haveMoreTransactions) {
+		this.haveMoreTransactions = haveMoreTransactions;
 	}
 }
