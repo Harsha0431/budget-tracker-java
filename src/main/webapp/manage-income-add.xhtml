@@ -110,12 +110,12 @@
 						</div>
 						<h:panelGroup layout="block" styleClass="py-3 w-full items-center flex flex-wrap justify-center gap-x-4 gap-y-2">
 							<h:commandButton type="button" action="#{dashboard.handleResetIncomeFormClick()}" value="Reset"
-								styleClass="w-full order-2 cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md dark:bg-[#4b246a4d] dark:hover:shadow-[#4b246a4d] hover:shadow-inner hover:shadow-[#bb95db4c] bg-[#bb95db4c] transition-all shadow-md"
+								styleClass="w-full order-2 font-semibold cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md dark:bg-[#4b246a4d] dark:hover:shadow-[#4b246a4d] hover:shadow-inner hover:shadow-[#bb95db4c] bg-[#bb95db4c] transition-all shadow-md"
 							>
 								<f:ajax execute="@form" render=":add-income-form-container"></f:ajax>
 							</h:commandButton>
 							<h:commandButton type="submit" action="#{dashboard.handleAddIncomeClick()}" value="Add Income"
-								styleClass="w-full order-1 cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md text-darkText dark:bg-darkPrimary dark:hover:shadow-darkPrimary hover:shadow-inner bg-lightPrimary transition-all shadow-md"
+								styleClass="w-full order-1 font-semibold cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md text-darkText dark:bg-darkPrimary dark:hover:shadow-darkPrimary hover:shadow-inner bg-lightPrimary transition-all shadow-md"
 							/>
 						</h:panelGroup>
 						<span>

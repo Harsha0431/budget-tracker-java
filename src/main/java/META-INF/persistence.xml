@@ -4,6 +4,8 @@
 		<non-jta-data-source>java:/MySqlBudgetTracker</non-jta-data-source>
 		<class>com.login.LoginEntity</class>
 		<class>com.model.IncomeEntity</class>
+		<class>com.model.ExpenseCatalogEntity</class>
+		<class>com.model.ExpenseEntity</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>

@@ -129,6 +129,7 @@ public class AuthModel implements Serializable {
 			homeStore.setIsLoggedIn(false);
 			homeStore.setUserEmail(null);
 			homeStore.setUserName(null);
+			homeStore.setUserEntity(null);
 		}
 		catch (Exception e) {
 			System.out.println("Caught error in handleLogout: ");

@@ -20,9 +20,12 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.dashboard.manageExpenses.ManageExpensesRemote;
 import com.login.LoginEntity;
 import com.login.LoginRemote;
 import com.manageIncome.ManageIncomeRemote;
+import com.model.ExpenseCatalogEntity;
+import com.model.ExpenseEntity;
 import com.model.IncomeEntity;
 
 @ManagedBean(name = "dashboard", eager = true)
@@ -34,6 +37,8 @@ public class DashboardStore {
 	LoginRemote loginService;
 	@EJB(lookup = "java:global/budget-tracker/ManageIncomeController!com.manageIncome.ManageIncomeRemote")
 	ManageIncomeRemote manageIncomeController;
+	@EJB(lookup = "java:global/budget-tracker/ManageExpensesController!com.dashboard.manageExpenses.ManageExpensesRemote")
+	ManageExpensesRemote manageExpensesRemote;
 	
 	private String activePage = "home";
 	enum Pages {
@@ -54,7 +59,7 @@ public class DashboardStore {
 	private boolean manageIncomeFormMessageIsError = false;
 	private List<IncomeEntity> incomeTransactionList = new LinkedList<>();
 	private boolean haveMoreTransactions = true;
-	private int incomeTransactionListLimit = 4;
+	private int incomeTransactionListLimit = 10;
 	// Add Income
 	@NotNull(message = "Allocated year is required")
 	private int allocatedYear;
@@ -87,6 +92,166 @@ public class DashboardStore {
 			this.value = value;
 		}
     }
+    
+    // *Manage Expenses attributes*
+	enum ManageExpenseActiveOptions {
+		addNewExpense,
+		viewExpenseHistory,
+		viewExpenseCatalog
+	}
+	private String manageExpenseActive = "addNewExpense";
+	private String manageExpenseFormMessage;
+	private boolean manageExpenseFormMessageIsError = false;
+	private List<ExpenseEntity> expenseHistoryList = new LinkedList<>();
+	// Add expense
+	@NotNull(message = "Amount is required")
+	@DecimalMin(value = "0.1", inclusive = true, message = "Invalid expense ammount")
+	private BigDecimal expenseAmount;
+	@NotNull(message = "Allocated month is required")
+	@Min(value = 1L, message = "Please select valid month")
+	@Max(value = 12L,  message = "Please select valid month")
+	private short expenseAllocatedMonth;
+	@NotNull(message = "Allocated year is required")
+	@Min(value = 1900L, message = "Year must be 1900 or later")
+	private short expenseAllocatedYear;
+	@NotNull(message = "Please select category")
+	private Long expenseCategoryId;
+	private String expenseDescription;
+	// Expense catalog list
+	private List<ExpenseCatalogEntity> expenseCatalogList = new LinkedList<>();
+	
+	public void handleAddExpenseClick() {
+		System.out.println("CAME TO ADD EXPENSE FORM SUBMIT");
+		try {			
+			if(!homeStore.getIsLoggedIn()) {
+				ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+				try {
+					ec.redirect(ec.getRequestContextPath() + "/login.jsf");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(expenseAllocatedYear > (LocalDateTime.now().getYear()+2)) {
+				manageExpenseFormMessage = "Allocated year shouldn't excced " + (LocalDateTime.now().getYear()+2);
+				manageExpenseFormMessageIsError = true;
+				return;
+			}
+			manageExpenseFormMessage = null;
+			manageExpenseFormMessageIsError = false;
+			homeStore.setShowMainLoader(true);
+			homeStore.setMainLoaderMessage(null);
+			if(homeStore.getUserEntity()==null) {
+				LoginEntity user = loginService.getUserLoginEntity(homeStore.getUserEmail());
+				homeStore.setUserEntity(user);
+			}
+			ExpenseEntity expense = new ExpenseEntity();
+			expense.setUser(homeStore.getUserEntity());
+			expense.setAllocatedMonth(expenseAllocatedMonth);
+			expense.setAllocatedYear(expenseAllocatedYear);
+			expense.setAmount(expenseAmount);
+			expense.setDescription(expenseDescription);
+			expense.setCreatedAt(LocalDateTime.now());
+			ExpenseCatalogEntity catalog = manageExpensesRemote.getExpenseCatalogWithIdFromList(expenseCatalogList, expenseCategoryId);
+			if(catalog == null) {
+				manageExpenseFormMessage = "Please select valid category";
+				manageExpenseFormMessageIsError = true;
+				return;
+			}
+			expense.setCategory(catalog);
+			List<String> response = manageExpensesRemote.addExpense(expense);
+			manageExpenseFormMessage = response.get(1);
+			manageExpenseFormMessageIsError = !response.get(0).equalsIgnoreCase("success");
+			if(!manageExpenseFormMessageIsError) {
+				expenseHistoryList.add(0, expense);
+			}
+			System.out.println("HANDLE ADD EXPENSE CLICK ~ RESPONSE: " + response.get(1));
+			homeStore.setShowMainLoader(false);
+			homeStore.setMainLoaderMessage(null);
+			handleResetExpenseFormClick();
+			return;
+		}
+		catch(Exception e) {
+			System.out.println("Caught exception in adding expense due to " + e.getMessage());
+			e.printStackTrace();
+			manageExpenseFormMessage = "Failed to add expense";
+			manageExpenseFormMessageIsError = true;
+			homeStore.setShowMainLoader(false);
+			homeStore.setMainLoaderMessage(null);
+		}
+	}
+	
+	public void handleResetExpenseFormClick() {
+		System.out.println("CAME TO EXPENSE ADD FORM RESUBMIT");
+		expenseAllocatedMonth = (short) LocalDateTime.now().getMonthValue();
+		expenseAllocatedYear = (short) LocalDateTime.now().getYear();
+		expenseAmount = BigDecimal.ZERO;
+		expenseCategoryId = null;
+	}
+    
+	public BigDecimal getExpenseAmount() {
+		return expenseAmount;
+	}
+
+	public void setExpenseAmount(BigDecimal expenseAmount) {
+		this.expenseAmount = expenseAmount;
+	}
+
+	public short getExpenseAllocatedMonth() {
+		return expenseAllocatedMonth;
+	}
+
+	public void setExpenseAllocatedMonth(short expenseAllocatedMonth) {
+		this.expenseAllocatedMonth = expenseAllocatedMonth;
+	}
+
+	public short getExpenseAllocatedYear() {
+		return expenseAllocatedYear;
+	}
+
+	public void setExpenseAllocatedYear(short expenseAllocatedYear) {
+		this.expenseAllocatedYear = expenseAllocatedYear;
+	}
+
+	public Long getExpenseCategoryId() {
+		return expenseCategoryId;
+	}
+
+	public void setExpenseCategoryId(Long expenseCategoryId) {
+		this.expenseCategoryId = expenseCategoryId;
+	}
+
+	public String getExpenseDescription() {
+		return expenseDescription;
+	}
+
+	public void setExpenseDescription(String expenseDescription) {
+		this.expenseDescription = expenseDescription;
+	}
+
+	public String getManageExpenseActive() {
+		return manageExpenseActive;
+	}
+
+	public void setManageExpenseActive(String manageExpenseActive) {
+		this.manageExpenseActive = manageExpenseActive;
+	}
+
+	public String getManageExpenseFormMessage() {
+		return manageExpenseFormMessage;
+	}
+
+	public void setManageExpenseFormMessage(String manageExpenseFormMessage) {
+		this.manageExpenseFormMessage = manageExpenseFormMessage;
+	}
+
+	public boolean isManageExpenseFormMessageIsError() {
+		return manageExpenseFormMessageIsError;
+	}
+
+	public void setManageExpenseFormMessageIsError(boolean manageExpenseFormMessageIsError) {
+		this.manageExpenseFormMessageIsError = manageExpenseFormMessageIsError;
+	}
+
 	@PostConstruct
     public void init() {
 		allocatedMonth = LocalDate.now().getMonthValue();
@@ -126,6 +291,19 @@ public class DashboardStore {
 			}
 		}
         if (isValidPage(page)) {
+        	if(page.equals("manageExpenses")) {
+        		expenseAllocatedMonth = (short) LocalDateTime.now().getMonthValue();
+        		expenseAllocatedYear = (short) LocalDateTime.now().getYear();
+        		homeStore.setShowMainLoader(true);
+        		if(homeStore.getUserEntity()==null) {
+    				LoginEntity user = loginService.getUserLoginEntity(homeStore.getUserEmail());
+    				homeStore.setUserEntity(user);
+    			}
+        		if((expenseCatalogList.size()==0) || (expenseCatalogList.size()>0 && (!expenseCatalogList.get(0).getUser().getEmail().equals(homeStore.getUserEntity().getEmail())))) {
+        			expenseCatalogList = manageExpensesRemote.getExpenseCategories(homeStore.getUserEntity());
+        		}
+        		homeStore.setShowMainLoader(false);
+        	}
             this.activePage = page;
         }
         else {
@@ -159,7 +337,6 @@ public class DashboardStore {
 	}
 	
 	public void handleLoadTransactionList() {
-		System.out.println("CAME HERE");
 		homeStore.setShowMainLoader(true);
 		if(homeStore.getUserEntity()==null) {
 			LoginEntity user = loginService.getUserLoginEntity(homeStore.getUserEmail());
@@ -196,6 +373,27 @@ public class DashboardStore {
 		}
 		this.manageIncomeActive = manageIncomeActive;
 	}
+	
+	public void changeManageExpenseActive(String manageExpenseActive) {
+		if(!homeStore.getIsLoggedIn()) {
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            try {
+				ec.redirect(ec.getRequestContextPath() + "/login.jsf");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if(this.manageExpenseActive!=manageExpenseActive) {
+			// TODO: Review this
+			if(manageExpenseActive.equalsIgnoreCase("viewIncomeHistory") && incomeTransactionList.size()==0)
+				handleLoadTransactionList();
+		}
+		else {
+			//TODO: Review this
+			handleResetIncomeFormClick();
+		}
+		this.manageExpenseActive = manageExpenseActive;
+	}
 
 	public int getAllocatedYear() {
 		return allocatedYear;
@@ -230,6 +428,14 @@ public class DashboardStore {
 	}
 	
 	public void handleAddIncomeClick() {
+		if(!homeStore.getIsLoggedIn()) {
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            try {
+				ec.redirect(ec.getRequestContextPath() + "/login.jsf");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		homeStore.setShowMainLoader(true);
 		homeStore.setMainLoaderMessage("Adding Income");
 		if(homeStore.getUserEntity()==null) {
@@ -259,7 +465,6 @@ public class DashboardStore {
 		allocatedYear = LocalDate.now().getYear();
 		incomeAmmount = BigDecimal.ZERO;
 		incomeDescription = null;
-		System.out.println("HANDLE INCOME RESET CLICK");
 	}
 
 	public String getManageIncomeFormMessage() {
@@ -300,5 +505,21 @@ public class DashboardStore {
 
 	public void setHaveMoreTransactions(boolean haveMoreTransactions) {
 		this.haveMoreTransactions = haveMoreTransactions;
+	}
+
+	public List<ExpenseEntity> getExpenseHistoryList() {
+		return expenseHistoryList;
+	}
+
+	public void setExpenseHistoryList(List<ExpenseEntity> expenseHistoryList) {
+		this.expenseHistoryList = expenseHistoryList;
+	}
+
+	public List<ExpenseCatalogEntity> getExpenseCatalogList() {
+		return expenseCatalogList;
+	}
+
+	public void setExpenseCatalogList(List<ExpenseCatalogEntity> expenseCatalogList) {
+		this.expenseCatalogList = expenseCatalogList;
 	}
 }

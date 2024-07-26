@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+>
+
+	<ui:composition>
+		<h:panelGroup layout="block" styleClass="custom_scrollbar w-full flex-1 overflow-hidden flex h-full justify-center items-center mb-[60px]">
+			<h:panelGroup layout="block" styleClass="w-full max-w-[480px] px-10 py-8 max-md:px-8 max-md:py-6 max-ssm:px-6 max-ssm:py-4 border border-lightText dark:border-darkText rounded-xl shaow-inner">
+				<h:panelGroup id="add-expense-form-container" layout="block" styleClass="max-w-[450px] w-full">
+					<h:form id="add_expense_form" styleClass="flex flex-col gap-y-4 max-ssm:gap-y-3">
+						<div class="flex flex-col gap-y-1 w-full">
+							<h:outputLabel
+							    for="expense_amount"
+							    styleClass="cursor-text font-semibold max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+								value="Amount"
+							/>
+							<h:inputText
+								id="expense_amount"
+							    name="expense_amount"
+							    type="number"
+							    value="#{dashboard.expenseAmount}"
+							    required="true"
+							    requiredMessage="Amount is required"
+							    label="Enter expense"
+							    styleClass="w-full border-b border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-inherit"
+							>
+							</h:inputText>
+							<h:message styleClass="text-sm" for="expense_amount" style="color:red;" />
+						</div>
+						<h:panelGroup layout="block" styleClass="flex gap-x-4 gap-y-3 max-vsm:flex-col justify-between">
+							<div class="flex flex-col gap-y-1 w-full">
+								<h:outputLabel
+								    for="expense_year"
+								    styleClass="cursor-text font-semibold max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+									value="Allocated Year"
+								/>
+								<h:inputText
+									id="expense_year"
+								    name="expense_year"
+								    type="number"
+								    value="#{dashboard.expenseAllocatedYear}"
+								    required="true"
+								    requiredMessage="Allocated year is required"
+								    label="Allocated year"
+								    styleClass="w-full border-b border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-inherit"
+								/>
+								<h:message styleClass="text-sm" for="expense_year" style="color:red;" />
+							</div>
+							<div class="flex flex-col gap-y-1 w-full">
+								<h:outputLabel
+								    for="expense_month"
+								    styleClass="cursor-text font-semibold max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+									value="Allocated Month"
+								/>
+								<h:selectOneMenu
+									value="#{dashboard.expenseAllocatedMonth}"
+									id="expense_month"
+								    name="expense_month"
+									styleClass="dropdown-menu w-full border-b border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-transparent"
+								>
+									<f:selectItem itemLabel="January" itemValue="1" />
+								    <f:selectItem itemLabel="February" itemValue="2" />
+								    <f:selectItem itemLabel="March" itemValue="3" />
+								    <f:selectItem itemLabel="April" itemValue="4" />
+								    <f:selectItem itemLabel="May" itemValue="5" />
+								    <f:selectItem itemLabel="June" itemValue="6" />
+								    <f:selectItem itemLabel="July" itemValue="7" />
+								    <f:selectItem itemLabel="August" itemValue="8" />
+								    <f:selectItem itemLabel="September" itemValue="9" />
+								    <f:selectItem itemLabel="October" itemValue="10" />
+								    <f:selectItem itemLabel="November" itemValue="11" />
+								    <f:selectItem itemLabel="December" itemValue="12" />
+								</h:selectOneMenu>
+								<h:message styleClass="text-sm" for="expense_month" style="color:red;" />
+							</div>
+						</h:panelGroup>
+						<div class="flex flex-col gap-y-1 w-full">
+							<h:outputLabel
+							    for="expense_catalog"
+							    styleClass="cursor-text font-semibold max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+								value="Select Category"
+							/>
+							<h:selectOneMenu
+								value="#{dashboard.expenseCategoryId}"
+								id="expense_catalog"
+							    name="expense_catalog"
+								styleClass="dropdown-menu w-full border-b border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-transparent"
+							>
+								<f:selectItem itemLabel="-- Select Category --" itemValue="#{null}" />
+								<f:selectItems value="#{dashboard.expenseCatalogList}" var="entry" 
+    								itemValue="#{entry.id}" itemLabel="#{entry.category}" />
+							</h:selectOneMenu>
+							<h:message styleClass="text-sm" for="expense_catalog" style="color:red;" />
+						</div>
+						<div class="flex flex-col gap-y-1 w-full">
+							<h:outputLabel
+							    for="expense_description"
+							    styleClass="cursor-text font-semibold max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+								value="Description"
+							/>
+							<h:inputTextarea
+								id="expense_description"
+							    name="expense_description"
+							    value="#{dashboard.expenseDescription}"
+							    a:placeholder="Detail the expense context"
+								styleClass="custom_scrollbar w-full border-b dark:placeholder:text-darkText/50 border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-inherit"
+							/>
+							<h:message styleClass="text-sm" for="expense_description" style="color:red;" />
+						</div>
+						<h:panelGroup layout="block" styleClass="py-3 w-full items-center flex flex-wrap justify-center gap-x-4 gap-y-3">
+							<!-- <h:commandButton type="button" value="Reset"
+								styleClass="w-full order-2 font-semibold cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md dark:bg-[#4b246a4d] dark:hover:shadow-[#4b246adb] hover:shadow-inner hover:shadow-[#bb95db4c] bg-[#bb95db4c] transition-all"
+							>
+							</h:commandButton> -->
+							<h:commandButton type="submit" action="#{dashboard.handleAddExpenseClick()}" value="Add Expense"
+								styleClass="w-full font-semibold order-1 cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md text-darkText dark:bg-darkPrimary hover:dark:bg-darkPrimary/[0.9] dark:hover:shadow-darkPrimary hover:shadow-inner bg-lightPrimary hover:bg-lightPrimary/[0.95] transition-all shadow-md"
+							>
+								<f:ajax execute="@form" render=":add-expense-form-container"></f:ajax>
+							</h:commandButton>
+						</h:panelGroup>
+						<span>
+							<h:outputText value="#{dashboard.manageExpenseFormMessage}" rendered="#{dashboard.manageExpenseFormMessageIsError}" style="color: red;" />
+							<h:outputText value="#{dashboard.manageExpenseFormMessage}" rendered="#{!dashboard.manageExpenseFormMessageIsError}" style="color: green;" />
+						</span>
+					</h:form>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</ui:composition>
+</html>

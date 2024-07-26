@@ -5,6 +5,40 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
 	<ui:composition>
-		<h:outputText value="#{dashboard.activePage}" />
+		<h:panelGroup layout="block" styleClass="flex flex-col gap-y-4 max-ssm:gap-y-2 flex-1">
+			<h:panelGroup layout="block" styleClass="flex justify-center items-center flex-wrap mt-3">
+				<h:panelGroup layout="block" styleClass="flex gap-x-3 gap-y-2 justify-center items-center flex-wrap text-[calc(14px+0.2dvw)]">
+					<h:form>
+						<h:commandButton action="#{dashboard.changeManageExpenseActive('addNewExpense')}" rendered="#{dashboard.manageExpenseActive != 'addNewExpense'}" value="Add Expense" styleClass="cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md dark:bg-[#4b246a4d] dark:hover:shadow-[#4b246a4d] hover:shadow-inner hover:shadow-[#bb95db4c] bg-[#bb95db4c] hover:-translate-y-1 transition-all shadow-md">
+						</h:commandButton>
+						<h:commandButton action="#{dashboard.changeManageExpenseActive('addNewExpense')}" rendered="#{dashboard.manageExpenseActive == 'addNewExpense'}" value="Add Expense" styleClass="cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md text-darkText dark:bg-darkPrimary dark:hover:shadow-darkPrimary hover:shadow-2xl bg-lightPrimary hover:-translate-y-1 transition-all shadow-md">
+						</h:commandButton>
+					</h:form>
+					<h:form>
+						<h:commandButton action="#{dashboard.changeManageExpenseActive('viewExpenseHistory')}" rendered="#{dashboard.manageExpenseActive != 'viewExpenseHistory'}" value="My Expenses" styleClass="cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md dark:bg-[#4b246a4d] dark:hover:shadow-[#4b246a4d] hover:shadow-inner hover:shadow-[#bb95db4c] bg-[#bb95db4c] hover:-translate-y-1 transition-all shadow-md">
+						</h:commandButton>
+						<h:commandButton action="#{dashboard.changeManageExpenseActive('viewExpenseHistory')}" rendered="#{dashboard.manageExpenseActive == 'viewExpenseHistory'}" value="My Expenses" styleClass="cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md text-darkText dark:bg-darkPrimary dark:hover:shadow-darkPrimary hover:shadow-2xl bg-lightPrimary hover:-translate-y-1 transition-all shadow-md">
+						</h:commandButton>
+					</h:form>
+					<h:form>
+						<h:commandButton action="#{dashboard.changeManageExpenseActive('viewExpenseCatalog')}" rendered="#{dashboard.manageExpenseActive != 'viewExpenseCatalog'}" value="Expense Categories" styleClass="cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md dark:bg-[#4b246a4d] dark:hover:shadow-[#4b246a4d] hover:shadow-inner hover:shadow-[#bb95db4c] bg-[#bb95db4c] hover:-translate-y-1 transition-all shadow-md">
+						</h:commandButton>
+						<h:commandButton action="#{dashboard.changeManageExpenseActive('viewExpenseCatalog')}" rendered="#{dashboard.manageExpenseActive == 'viewExpenseCatalog'}" value="Expense Categories" styleClass="cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md text-darkText dark:bg-darkPrimary dark:hover:shadow-darkPrimary hover:shadow-2xl bg-lightPrimary hover:-translate-y-1 transition-all shadow-md">
+						</h:commandButton>
+					</h:form>
+				</h:panelGroup>
+			</h:panelGroup>
+			<h:panelGroup layout="block" id="dashboard__manage_expense__content" styleClass="w-full flex flex-col flex-1">
+				<h:panelGroup rendered="#{dashboard.manageExpenseActive == 'addNewExpense'}">
+					<ui:include src="/manage-expense-add.xhtml" />
+				</h:panelGroup>
+				<h:panelGroup rendered="#{dashboard.manageExpenseActive == 'viewExpenseHistory'}">
+					<ui:include src="/my-expenses.xhtml" />
+				</h:panelGroup>
+				<h:panelGroup rendered="#{dashboard.manageExpenseActive == 'viewExpenseCatalog'}">
+					<ui:include src="/expense-catalog.xhtml" />
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
 	</ui:composition>
 </html>

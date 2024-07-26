@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.model.ExpenseCatalogEntity;
 import com.model.IncomeEntity;
 
 @Entity
@@ -28,6 +29,9 @@ public class LoginEntity implements Serializable {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<IncomeEntity> incomes = new LinkedList<IncomeEntity>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ExpenseCatalogEntity> expenseCatalogs;
 
 	public List<IncomeEntity> getIncomes() {
 		return incomes;
@@ -68,4 +72,12 @@ public class LoginEntity implements Serializable {
 	public void removeIncome(IncomeEntity income) {
 		this.incomes.remove(income);
 	}
+	
+	public List<ExpenseCatalogEntity> getExpenseCatalogs() {
+        return expenseCatalogs;
+    }
+
+    public void setExpenseCatalogs(List<ExpenseCatalogEntity> expenseCatalogs) {
+        this.expenseCatalogs = expenseCatalogs;
+    }
 }
