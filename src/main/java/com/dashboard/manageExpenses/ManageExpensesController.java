@@ -1,6 +1,7 @@
 package com.dashboard.manageExpenses;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -65,5 +66,27 @@ public class ManageExpensesController implements ManageExpensesRemote {
 				return catalog;
 		}
 		return null;
+	}
+
+	@Override
+	public List<ExpenseEntity> getExpenseHistoryList(LoginEntity user, int offset) {
+		List<ExpenseEntity> list = new LinkedList<>();
+		EntityManager em = emf.createEntityManager();
+		int limit = 10;
+		try {
+			TypedQuery<ExpenseEntity> query = em.createQuery("SELECT e from ExpenseEntity e where e.user=:user order by e.createdAt desc", ExpenseEntity.class);
+			query.setFirstResult(offset);
+			query.setMaxResults(limit);
+			query.setParameter("user", user);
+			list = query.getResultList();
+			return list;
+		}
+		catch(Exception e) {		
+			System.err.println("Caught error in getting expense history from controller: " + e.getMessage());
+			return null;
+		}
+		finally {
+			em.close();
+		}
 	}
 }

@@ -3,6 +3,7 @@ package com.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.*;
 
@@ -49,6 +50,25 @@ public class ExpenseEntity implements Serializable {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
+	
+	public enum Month {
+    	January,
+        February,
+        March,
+        April,
+        May,
+        June,
+        July,
+        August,
+        September,
+        October,
+        November,
+        December;
+
+        public static Month fromIndex(int index) {
+            return Month.values()[index - 1];
+        }
+    }
 
 	// Getters and Setters
     public Long getId() {
@@ -106,5 +126,16 @@ public class ExpenseEntity implements Serializable {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+    
+    @Transient
+	public String getMonthName(short index) {
+		return Month.fromIndex(index).name();
+	}
+	@Transient
+	public String getFormattedTimeStamp(LocalDateTime now) {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
+        String formatDateTime = now.format(format);  
+        return formatDateTime;
+	}
 }
 

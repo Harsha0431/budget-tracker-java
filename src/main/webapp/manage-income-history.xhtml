@@ -42,7 +42,8 @@
 						<f:facet name="header">
 							<h:outputText value="Description" styleClass="px-4 py-2" />
 						</f:facet>
-						<h:outputText value="#{income.description}" styleClass="text-base max-ssm:text-sm px-4 py-2 line-clamp-1 hover:line-clamp-none" />
+						<h:outputText rendered="#{income.description == null or income.description.length() == 0}" value="#{'-'}" styleClass="text-base max-ssm:text-sm px-4 py-2 line-clamp-1 hover:line-clamp-none" />
+						<h:outputText rendered="#{income.description != null and income.description.length() != 0}" value="#{income.description}" styleClass="text-base max-ssm:text-sm px-4 py-2 line-clamp-1 hover:line-clamp-none" />
 					</h:column>
 				</h:dataTable>
 				<h:form rendered="#{dashboard.haveMoreTransactions}" styleClass="flex justify-center">

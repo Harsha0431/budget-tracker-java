@@ -5,6 +5,66 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
 	<ui:composition>
-		<h:outputText value="My Expense" />
+		<h:panelGroup layout="block" styleClass="overflow-hidden w-full flex flex-col gap-y-2">
+			<h:panelGroup layout="block" rendered="#{dashboard.expenseHistoryListAll==null or dashboard.expenseHistoryListAll.size()==0}"
+				styleClass="flex justify-center mt-4 flex-col"
+			>
+				<h:outputText value="You have no expense entries added." styleClass="text-[calc(18px+0.2dvw)] text-center font-semibold mb-2" />
+				<h:outputText value="Please record your first expense to start tracking!" styleClass="text-[calc(14px+0.2dvw)] text-center text-opacity-[0.8]" />
+				<h:form styleClass="flex justify-center">
+					<h:commandButton value="Add Expense" action="#{dashboard.changeManageExpenseActive('addNewExpense')}"
+						styleClass="mt-4 cursor-pointer w-fit inline-block bg-lightPrimary dark:bg-darkPrimary hover:bg-lightPrimary/[0.90] dark:hover:bg-darkPrimary/[0.8] transition-all text-white font-bold py-2 px-4 rounded"
+					/>
+				</h:form>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{not (dashboard.expenseHistoryListAll==null or dashboard.expenseHistoryListAll.size()==0)}"
+                styleClass="flex flex-col gap-y-2 mt-4 custom_scrollbar__hidden overflow-auto mb-[60px]">
+                <h:dataTable value="#{dashboard.expenseHistoryListAll}" var="expense" styleClass="expense-history_table text-nowrap table-auto w-full">					
+					<h:column headerClass="w-[200px] text-nowrap">
+						<f:facet name="header">
+							<h:outputText value="Allocated Period" styleClass="px-4 py-2" />
+						</f:facet>
+						<h:outputText value="#{expense.allocatedYear}, #{expense.getMonthName(expense.allocatedMonth)}" styleClass="capitalize text-base max-ssm:text-sm px-4 py-2" />
+					</h:column>
+					<h:column headerClass="w-[200px]">
+						<f:facet name="header">
+							<h:outputText value="Amount" styleClass="px-4 py-2" />
+						</f:facet>
+						<h:outputText value="#{expense.amount}" styleClass="text-lg max-ssm:text-base font-semibold px-4 py-2" />
+					</h:column>
+					<h:column headerClass="w-[200px]">
+						<f:facet name="header">
+							<h:outputText value="Category" styleClass="px-4 py-2" />
+						</f:facet>
+						<h:outputText value="#{expense.category.category}" styleClass="text-lg max-ssm:text-base font-semibold px-4 py-2" />
+					</h:column>
+					<h:column headerClass="w-[200px]">
+						<f:facet name="header">
+							<h:outputText value="Recorded On" styleClass="px-4 py-2" />
+						</f:facet>
+						<h:outputText value="#{expense.getFormattedTimeStamp(expense.createdAt)}" styleClass="text-base max-ssm:text-sm px-4 py-2" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Description" styleClass="px-4 py-2" />
+						</f:facet>
+						<h:outputText rendered="#{expense.description != null and expense.description.length() > 0}" value="#{expense.description}" styleClass="text-base max-ssm:text-sm px-4 py-2 line-clamp-1 hover:line-clamp-none" />
+						<h:outputText rendered="#{expense.description == null or expense.description.length() == 0}" value="#{'-'}" styleClass="text-base max-ssm:text-sm px-4 py-2 line-clamp-1 hover:line-clamp-none" />
+					</h:column>
+					<!-- <h:column headerClass="sticky right-0" footerClass="sticky right-0" id="table_right_sticky_column">
+						<f:facet name="header">
+							<h:outputText value="Description" styleClass="px-4 py-2" />
+						</f:facet>
+						<h:outputText value="#{'Test'}" styleClass="text-base max-ssm:text-sm px-4 py-2 line-clamp-1 hover:line-clamp-none" />
+					</h:column>
+					 -->
+				</h:dataTable>
+				<h:form rendered="#{dashboard.loadMoreExpenseHistoryListAll}" styleClass="flex justify-center">
+					<h:commandButton type="submit" action="#{dashboard.getLoadMyExpensesHistoryData()}" value="Load More"
+						styleClass="cursor-pointer w-fit inline-block bg-lightPrimary dark:bg-darkPrimary hover:bg-lightPrimary/[0.90] dark:hover:bg-darkPrimary/[0.8] transition-all text-white font-bold py-2 px-4 rounded"
+					/>
+				</h:form>
+            </h:panelGroup>
+		</h:panelGroup>
 	</ui:composition>
 </html>

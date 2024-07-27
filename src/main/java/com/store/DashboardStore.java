@@ -102,7 +102,7 @@ public class DashboardStore {
 	private String manageExpenseActive = "addNewExpense";
 	private String manageExpenseFormMessage;
 	private boolean manageExpenseFormMessageIsError = false;
-	private List<ExpenseEntity> expenseHistoryList = new LinkedList<>();
+	private List<ExpenseEntity> expenseHistoryListAll = new LinkedList<>();
 	// Add expense
 	@NotNull(message = "Amount is required")
 	@DecimalMin(value = "0.1", inclusive = true, message = "Invalid expense ammount")
@@ -119,17 +119,68 @@ public class DashboardStore {
 	private String expenseDescription;
 	// Expense catalog list
 	private List<ExpenseCatalogEntity> expenseCatalogList = new LinkedList<>();
+	// Expenses history
+	private boolean loadMoreExpenseHistoryListAll = true;
+	
+	public void getLoadMyExpensesHistoryData() {
+		try {
+			if(homeStore.getUserEntity()==null) {
+				LoginEntity user = loginService.getUserLoginEntity(homeStore.getUserEmail());
+				homeStore.setUserEntity(user);
+			}
+			if(!loadMoreExpenseHistoryListAll)
+				return;
+			List<ExpenseEntity> list = manageExpensesRemote.getExpenseHistoryList(homeStore.getUserEntity(), expenseHistoryListAll.size());
+			if(list.size()>0) {
+				if(expenseHistoryListAll.size()>0)
+					expenseHistoryListAll.addAll(list);
+				else
+					expenseHistoryListAll = list;
+			}
+			loadMoreExpenseHistoryListAll = list.size()>=10;
+		}
+		catch(Exception e) {
+			System.err.println("Caught error in getLoadMyExpensesHistoryData() : " + e.getMessage());
+		}
+	}
+	
+	public void handleLoadMyExpensesHistoryList() {
+		try {
+			boolean isLoggedIn = checkUserLoggedIn();
+			System.out.println(isLoggedIn);
+			if(!isLoggedIn) {
+				return;
+			}
+			homeStore.setShowMainLoader(true);
+			homeStore.setMainLoaderMessage(null);
+			getLoadMyExpensesHistoryData();
+			homeStore.setShowMainLoader(false);
+		}
+		catch(Exception e) {
+			System.err.println("Caught error in getting expenses list : " + e.getMessage());
+			homeStore.setShowMainLoader(false);
+		}
+	}
+	
+	public boolean checkUserLoggedIn() {
+		if(!homeStore.getIsLoggedIn()) {
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			try {
+				ec.redirect(ec.getRequestContextPath() + "/login.jsf");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return false;
+		}
+		return true;
+	}
 	
 	public void handleAddExpenseClick() {
 		System.out.println("CAME TO ADD EXPENSE FORM SUBMIT");
 		try {			
-			if(!homeStore.getIsLoggedIn()) {
-				ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-				try {
-					ec.redirect(ec.getRequestContextPath() + "/login.jsf");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			boolean isLoggedIn = checkUserLoggedIn();
+			if(!isLoggedIn) {
+				return;
 			}
 			if(expenseAllocatedYear > (LocalDateTime.now().getYear()+2)) {
 				manageExpenseFormMessage = "Allocated year shouldn't excced " + (LocalDateTime.now().getYear()+2);
@@ -162,7 +213,7 @@ public class DashboardStore {
 			manageExpenseFormMessage = response.get(1);
 			manageExpenseFormMessageIsError = !response.get(0).equalsIgnoreCase("success");
 			if(!manageExpenseFormMessageIsError) {
-				expenseHistoryList.add(0, expense);
+				expenseHistoryListAll.add(0, expense);
 			}
 			System.out.println("HANDLE ADD EXPENSE CLICK ~ RESPONSE: " + response.get(1));
 			homeStore.setShowMainLoader(false);
@@ -383,14 +434,15 @@ public class DashboardStore {
 				e.printStackTrace();
 			}
 		}
+		// viewExpenseCatalog
 		if(this.manageExpenseActive!=manageExpenseActive) {
-			// TODO: Review this
-			if(manageExpenseActive.equalsIgnoreCase("viewIncomeHistory") && incomeTransactionList.size()==0)
-				handleLoadTransactionList();
+			if(manageExpenseActive.equalsIgnoreCase("viewExpenseHistory") && expenseHistoryListAll.size()==0)
+				handleLoadMyExpensesHistoryList();
+			
 		}
 		else {
-			//TODO: Review this
-			handleResetIncomeFormClick();
+			// TODO: Review this
+			handleResetExpenseFormClick();
 		}
 		this.manageExpenseActive = manageExpenseActive;
 	}
@@ -456,6 +508,7 @@ public class DashboardStore {
 			incomeTransactionList.add(0, income);
 		}
 		System.out.println("HANDLE ADD INCOME CLICK ~ RESPONSE: " + response.get(1));
+		handleResetIncomeFormClick();
 		homeStore.setShowMainLoader(false);
 		homeStore.setMainLoaderMessage(null);
 	}
@@ -507,19 +560,27 @@ public class DashboardStore {
 		this.haveMoreTransactions = haveMoreTransactions;
 	}
 
-	public List<ExpenseEntity> getExpenseHistoryList() {
-		return expenseHistoryList;
-	}
-
-	public void setExpenseHistoryList(List<ExpenseEntity> expenseHistoryList) {
-		this.expenseHistoryList = expenseHistoryList;
-	}
-
 	public List<ExpenseCatalogEntity> getExpenseCatalogList() {
 		return expenseCatalogList;
 	}
 
 	public void setExpenseCatalogList(List<ExpenseCatalogEntity> expenseCatalogList) {
 		this.expenseCatalogList = expenseCatalogList;
+	}
+
+	public boolean isLoadMoreExpenseHistoryListAll() {
+		return loadMoreExpenseHistoryListAll;
+	}
+
+	public void setLoadMoreExpenseHistoryListAll(boolean loadMoreExpenseHistoryListAll) {
+		this.loadMoreExpenseHistoryListAll = loadMoreExpenseHistoryListAll;
+	}
+
+	public List<ExpenseEntity> getExpenseHistoryListAll() {
+		return expenseHistoryListAll;
+	}
+
+	public void setExpenseHistoryListAll(List<ExpenseEntity> expenseHistoryListAll) {
+		this.expenseHistoryListAll = expenseHistoryListAll;
 	}
 }

@@ -191,17 +191,18 @@
 			color: black;
 		}
 		
-		.income-history_table thead{
+		
+		.income-history_table thead, .expense-history_table thead{
 			padding: 6px 4px;
 		}
-		.income-history_table thead th{
+		.income-history_table thead th, .expense-history_table thead th{
 			text-align: left;
 		}
-		.income-history_table {
+		.income-history_table, .expense-history_table {
 		  	border-collapse: separate;
 		  	border-spacing: 0 10px;
 		}
-		.income-history_table tbody tr{
+		.income-history_table tbody tr, .expense-history_table tbody tr{
 			display: table-row;
 			position: relative;
 			border-radius: 10px;
@@ -210,19 +211,19 @@
 			overflow: hidden;
 			width: 100%;
 		}
-		.income-history_table tbody tr {
+		.income-history_table tbody tr, .expense-history_table tbody tr{
 		 	background-color: rgb(4 3 7 / 0.06);
 			transition-property: all;
 			transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 			transition-duration: 150ms;
 		}
-		.income-history_table tbody tr:hover {
+		.income-history_table tbody tr:hover, .expense-history_table tbody tr:hover{
 		 	background-color: rgb(4 3 7 / 0.1);
 		}
-		body.dark .income-history_table tbody tr {
+		body.dark .income-history_table tbody tr,body.dark .expense-history_table tbody tr{
 		 	background-color: rgb(249 248 252 / 0.1);
 		}
-		body.dark .income-history_table tbody tr:hover {
+		body.dark .income-history_table tbody tr:hover, body.dark .expense-history_table tbody tr:hover{
 		 	background-color: rgb(249 248 252 / 0.15);
 		 	transition-property: all;
 			transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

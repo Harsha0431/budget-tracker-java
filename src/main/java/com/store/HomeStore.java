@@ -6,7 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import com.login.AuthModel;
 import com.login.LoginEntity;
 
 @ManagedBean(name = "homeStore", eager = true)
