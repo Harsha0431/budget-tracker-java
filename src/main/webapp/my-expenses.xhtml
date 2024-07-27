@@ -19,7 +19,7 @@
 			</h:panelGroup>
 			<h:panelGroup layout="block" rendered="#{not (dashboard.expenseHistoryListAll==null or dashboard.expenseHistoryListAll.size()==0)}"
                 styleClass="flex flex-col gap-y-2 mt-4 custom_scrollbar__hidden overflow-auto mb-[60px]">
-                <h:dataTable value="#{dashboard.expenseHistoryListAll}" var="expense" styleClass="expense-history_table text-nowrap table-auto w-full">					
+                <h:dataTable value="#{dashboard.expenseHistoryListAll}" var="expense" styleClass="expense-history_table custom_table_layout text-nowrap table-auto w-full">					
 					<h:column headerClass="w-[200px] text-nowrap">
 						<f:facet name="header">
 							<h:outputText value="Allocated Period" styleClass="px-4 py-2" />
@@ -36,7 +36,7 @@
 						<f:facet name="header">
 							<h:outputText value="Category" styleClass="px-4 py-2" />
 						</f:facet>
-						<h:outputText value="#{expense.category.category}" styleClass="text-lg max-ssm:text-base font-semibold px-4 py-2" />
+						<h:outputText value="#{expense.category.category}" styleClass="text-lg max-ssm:text-base px-4 py-2" />
 					</h:column>
 					<h:column headerClass="w-[200px]">
 						<f:facet name="header">

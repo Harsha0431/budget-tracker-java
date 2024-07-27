@@ -70,18 +70,35 @@
 	        var sidenav = document.getElementById('dashboard__sidenav');
 	        var content = document.getElementById('dashboard__content');
 	        var contentSidebarIcon = document.getElementById('content__side_bar_toggle_icon');
+	        var expenseCatalogGrid = document.getElementById('dashboard__expense_catalog_card_container_grid')
 	
 	        if (sidenav.classList.contains('close_sidebar')) {
 	            sidenav.classList.remove('close_sidebar');
 	            sidenav.classList.add('open_sidebar');
 	            content.classList.remove('w-full');
 	            contentSidebarIcon.classList.add('hidden');
+	            if(expenseCatalogGrid){
+	            	expenseCatalogGrid.classList.remove('grid-cols-4');
+	            	expenseCatalogGrid.classList.remove('max-xxl:grid-cols-3');
+	            	expenseCatalogGrid.classList.remove('max-md:grid-cols-2');
+	            	expenseCatalogGrid.classList.add('grid-cols-3');
+	            	expenseCatalogGrid.classList.add('max-md:grid-cols-1');
+	            	expenseCatalogGrid.classList.add('max-xxl:grid-cols-2');
+		        }
 	            
 	        } else {
 	            sidenav.classList.remove('open_sidebar');
 	            content.classList.add('w-full');
 	            sidenav.classList.add('close_sidebar');
 	            contentSidebarIcon.classList.remove('hidden');
+	            if(expenseCatalogGrid){
+	            	expenseCatalogGrid.classList.remove('grid-cols-3');
+	            	expenseCatalogGrid.classList.remove('max-md:grid-cols-1');
+	            	expenseCatalogGrid.classList.remove('max-xxl:grid-cols-2');
+	            	expenseCatalogGrid.classList.add('grid-cols-4');
+	            	expenseCatalogGrid.classList.add('max-xxl:grid-cols-3');
+	            	expenseCatalogGrid.classList.add('max-md:grid-cols-2');
+		        }
 	            if (innerWidth &lt; 640) {
 	            	sidenav.classList.add('absolute');
     	            sidenav.classList.add('top-0');
@@ -192,17 +209,17 @@
 		}
 		
 		
-		.income-history_table thead, .expense-history_table thead{
+		.income-history_table thead, .custom_table_layout thead{
 			padding: 6px 4px;
 		}
-		.income-history_table thead th, .expense-history_table thead th{
+		.income-history_table thead th, .custom_table_layout thead th{
 			text-align: left;
 		}
-		.income-history_table, .expense-history_table {
+		.income-history_table, .custom_table_layout {
 		  	border-collapse: separate;
 		  	border-spacing: 0 10px;
 		}
-		.income-history_table tbody tr, .expense-history_table tbody tr{
+		.income-history_table tbody tr, .custom_table_layout tbody tr{
 			display: table-row;
 			position: relative;
 			border-radius: 10px;
@@ -211,19 +228,19 @@
 			overflow: hidden;
 			width: 100%;
 		}
-		.income-history_table tbody tr, .expense-history_table tbody tr{
+		.income-history_table tbody tr, .custom_table_layout tbody tr{
 		 	background-color: rgb(4 3 7 / 0.06);
 			transition-property: all;
 			transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 			transition-duration: 150ms;
 		}
-		.income-history_table tbody tr:hover, .expense-history_table tbody tr:hover{
+		.income-history_table tbody tr:hover, .custom_table_layout tbody tr:hover{
 		 	background-color: rgb(4 3 7 / 0.1);
 		}
-		body.dark .income-history_table tbody tr,body.dark .expense-history_table tbody tr{
+		body.dark .income-history_table tbody tr, body.dark .custom_table_layout tbody tr{
 		 	background-color: rgb(249 248 252 / 0.1);
 		}
-		body.dark .income-history_table tbody tr:hover, body.dark .expense-history_table tbody tr:hover{
+		body.dark .income-history_table tbody tr:hover, body.dark .custom_table_layout tbody tr:hover{
 		 	background-color: rgb(249 248 252 / 0.15);
 		 	transition-property: all;
 			transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -245,7 +262,7 @@
 	            <h:outputText value="Default Content" />
 	        </ui:insert>
 	    </h:panelGroup>
-	    <h:panelGroup layout="block" id="footer">
+	    <h:panelGroup styleClass="hidden" layout="block" id="footer">
 	        <ui:insert name="footer">
 	            <h:outputText value="Default Footer" />
 	        </ui:insert>

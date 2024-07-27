@@ -5,6 +5,38 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
 	<ui:composition>
-		<h:outputText value="Expense Catalog" />
+		<h:panelGroup layout="block" styleClass="overflow-hidden w-full flex flex-col gap-y-2">
+			<h:panelGroup layout="block" rendered="#{dashboard.expenseCatalogList==null or dashboard.expenseCatalogList.size()==0}"
+				styleClass="flex justify-center mt-4 flex-col"
+			>
+				<h:outputText value="You have no categories added." styleClass="text-[calc(18px+0.2dvw)] text-center font-semibold mb-2" />
+				<h:outputText value="Please add your first category." styleClass="text-[calc(14px+0.2dvw)] text-center text-opacity-[0.8]" />
+				<h:form styleClass="flex justify-center">
+					<h:commandButton value="Add Category" action="#{dashboard.handleCatalogBtnClick()}"
+						styleClass="mt-4 cursor-pointer w-fit inline-block bg-lightPrimary dark:bg-darkPrimary hover:bg-lightPrimary/[0.90] dark:hover:bg-darkPrimary/[0.8] transition-all text-white font-bold py-2 px-4 rounded"
+					/>
+				</h:form>
+			</h:panelGroup>
+			<h:form styleClass="flex justify-left">
+				<h:commandButton type="submit" action="#{dashboard.handleCatalogBtnClick()}" value="Add Catalog"
+					styleClass="cursor-pointer w-fit inline-block bg-lightPrimary dark:bg-darkPrimary hover:bg-lightPrimary/[0.90] dark:hover:bg-darkPrimary/[0.8] transition-all text-white font-bold py-2 px-4 rounded"
+				/>
+			</h:form>
+			<h:panelGroup layout="block" rendered="#{not (dashboard.expenseCatalogList==null or dashboard.expenseCatalogList.size()==0)}"
+                styleClass="flex flex-col gap-y-2 justify-center mt-4 custom_scrollbar__hidden overflow-auto mb-[60px]">
+                <h:panelGroup id="dashboard__expense_catalog_card_container_grid" layout="block" styleClass="grid md:gap-x-4 gap-x-3 gap-y-4 grid-cols-4 max-xxl:grid-cols-3 max-md:grid-cols-2 max-ssm:grid-cols-1">
+	                <ui:repeat var="catalog" value="#{dashboard.expenseCatalogList}">
+	                	<h:panelGroup layout="block" styleClass="flex hover:cursor-grab flex-col gap-y-2 transition-all hover:scale-[0.95] hover:dark:bg-[#513db312] hover:shadow-inner shadow hover:bg-[#604cc217] dark:bg-[#887fb412] bg-[#604cc20d] flex-start align-center px-7 py-6 max-ssm:px-6 py-5 rounded-md overflow-hidden">
+	                		<span><h:outputText styleClass="font-semibold text-[calc(15px+0.2dvw)] max-ssm:text-[calc(14px+0.2dvw)]" value="#{catalog.category}" /></span>
+	                		<h:panelGroup layout="block" styleClass="flex flex-col gap-y-1" style="flex-direction: column;">
+	                			<span class="text-[calc(13px+0.2dvw)] font-semibold dark:text-darkText/[0.80] text-lightText/[0.80]"><h:outputText value="Description" /></span>
+		                		<span class="ml-1 text-[calc(12px+0.2dvw)] dark:text-darkText/[0.75] text-lightText/[0.75] font-light"><h:outputText rendered="#{catalog.description!=null and catalog.description.length()>0}" value="#{catalog.description}" /></span>
+		                		<span class="ml-1 text-[calc(12px+0.2dvw)] dark:text-darkText/[0.75] text-lightText/[0.75] font-lights"><h:outputText rendered="#{catalog.description==null or catalog.description.length()==0}" value="No description available" /></span>
+	                		</h:panelGroup>
+	                	</h:panelGroup>
+	                </ui:repeat>
+                </h:panelGroup>
+            </h:panelGroup>
+		</h:panelGroup>
 	</ui:composition>
 </html>

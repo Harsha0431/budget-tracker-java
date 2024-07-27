@@ -4,11 +4,33 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 	<ui:composition template="/template.xhtml">
-	
 		<ui:define name="content">	
-			<h:outputText value="Home Page" /><br />
-			<h:outputText value="Showing main loader: #{homeStore.showMainLoader}" /><br />
-			<h:outputText value="#{homeStore.userEmail} - #{authBean.loginMessage} - IsLoggedin: #{homeStore.isLoggedIn}" /><br />
+			<h:panelGroup layout="block" styleClass="bg-lightBg dark:bg-darkBg text-lightText dark:bg-darkBg dark:text-darkText w-[100dvw] font-customBody py-2 px-4 max-md:px-3 min-h-[100dvh] overflow-x-hidden mb-[64px]">
+			    <div class="flex flex-col gap-y-12 max-md:gap-y-6 items-center w-full">
+			        <div class="flex max-md:flex-col gap-x-3 justify-between">
+			            <div class="w-full flex justify-end order-1 w-full object-fill overflow-hidden">
+			                <h:graphicImage value="/resources/images/problem.svg" alt="Sad Person" styleClass="w-auto aspect-[1/1] max-md:h-[400px] max-ssm:h-full min-h-[400px] scale-[1] object-fill rounded-lg" />
+			            </div>
+			            <div class="w-full flex justify-center content-end order-2 flex-wrap mb-2 max-md:mb-8">
+			                <div class="bg-white dark:bg-darkSecondary p-6 max-ssm:p-4 rounded-lg shadow-md w-full max-w-[600px] text-wrap h-fit">
+			                    <h2 class="text-xl font-bold mb-2 text-center text-[calc(15px+0.2dvw)]">Where are my expenses going?</h2>
+			                    <p class="text-center text-[calc(14px+0.2dvw)]">This project aims to help you track your expenses and understand where you are spending more money.</p>
+			                </div>
+			            </div>
+			        </div>
+			        <div class="flex max-md:flex-col gap-x-3 justify-between">
+			            <div class="w-full max-md:order-2 flex justify-center content-top order-1 flex-wrap">
+			                <div class="bg-white dark:bg-darkSecondary p-6 max-ssm:p-4 rounded-lg shadow-md w-full mt-3 max-w-[600px] text-wrap h-fit">
+			                    <h2 class="text-xl font-bold mb-2 text-center text-[calc(15px+0.2dvw)]">Expense Tracker Solution</h2>
+			                    <p class="text-center text-[calc(14px+0.2dvw)]">Our Expense Tracker system offers a comprehensive solution to monitor and manage your expenses effectively.</p>
+			                </div>
+			            </div>
+			            <div class="w-full md:w-fit md:max-w-max flex justify-end max-md:justify-start max-md:order-1 order-2 w-full object-fill overflow-hidden">
+			                <h:graphicImage value="/resources/images/solution.svg" alt="Sad Person" styleClass="w-auto aspect-[1/1] max-md:h-[400px] max-ssm:h-full min-h-[400px] scale-[1.15] object-fill rounded-lg" />
+			            </div>
+			        </div>
+			    </div>
+			</h:panelGroup>
 		</ui:define>
 	</ui:composition>
 </html>

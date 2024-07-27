@@ -121,6 +121,14 @@ public class DashboardStore {
 	private List<ExpenseCatalogEntity> expenseCatalogList = new LinkedList<>();
 	// Expenses history
 	private boolean loadMoreExpenseHistoryListAll = true;
+	// Expense catalog attributes
+	private boolean addCatalogClicked = false;
+	
+	public void handleCatalogBtnClick() {
+		addCatalogClicked = !addCatalogClicked;
+	}
+	
+	public void handleAddCategologEntity() {}
 	
 	public void getLoadMyExpensesHistoryData() {
 		try {
@@ -582,5 +590,13 @@ public class DashboardStore {
 
 	public void setExpenseHistoryListAll(List<ExpenseEntity> expenseHistoryListAll) {
 		this.expenseHistoryListAll = expenseHistoryListAll;
+	}
+
+	public boolean isAddCatalogClicked() {
+		return addCatalogClicked;
+	}
+
+	public void setAddCatalogClicked(boolean addCatalogClicked) {
+		this.addCatalogClicked = addCatalogClicked;
 	}
 }
