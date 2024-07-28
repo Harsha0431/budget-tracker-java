@@ -11,6 +11,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link href="https://fonts.googleapis.com/css2?family=Federo&amp;family=Noto+Sans+Vithkuqi:wght@400..700&amp;display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script>
         tailwind.config = {
@@ -63,6 +64,38 @@
             const isDark = mainBody.classList.toggle('dark');
             localStorage.setItem('theme', isDark);
         }
+
+
+    	function handleClick(text){
+        	console.log(text)
+		    google.charts.load('current', {'packages': ['corechart']});
+		    google.charts.setOnLoadCallback(drawChart);
+		}
+
+    	function drawChart() {
+        	var jsonData = document.getElementById('expenseData').value;
+        	var expenses = JSON.parse(jsonData);
+	        var data = new google.visualization.DataTable();
+	        var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Category');
+            data.addColumn('number', 'Amount');
+
+            for (var i = 0; i &lt; expenses.length; i++) {
+                var category = expenses[i][0];
+                var amount = expenses[i][1];
+                data.addRow([category, amount]);
+            }
+            console.log(data);
+
+            var options = {
+                'title': 'Expenses by Category',
+                'width': 400,
+                'height': 300
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+	  	}
     </script>
     
     <script>

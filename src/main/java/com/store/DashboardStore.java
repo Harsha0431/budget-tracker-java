@@ -19,6 +19,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.dashboard.manageExpenses.ManageExpensesRemote;
 import com.login.LoginEntity;
@@ -122,13 +123,69 @@ public class DashboardStore {
 	// Expenses history
 	private boolean loadMoreExpenseHistoryListAll = true;
 	// Expense catalog attributes
-	private boolean addCatalogClicked = false;
+	private boolean openAddCatalogForm = false;
+	@NotNull(message = "Category title is required")
+	@Size(min=3, max=128)
+	private String addCatalogCategoryTitle;
+	private String addCatalogDescription;
+	private String addCatalogFormMessage;
+	private boolean addCatalogFormMessageIsError = false;
 	
-	public void handleCatalogBtnClick() {
-		addCatalogClicked = !addCatalogClicked;
+	public void handleResetCatalogAddForm() {
+		addCatalogCategoryTitle = null;
+		addCatalogDescription = null;
 	}
 	
-	public void handleAddCategologEntity() {}
+	public void handleCatalogBtnClick(boolean openAddCatalogForm) {
+		if(!openAddCatalogForm) {
+			handleResetCatalogAddForm();
+		}
+		addCatalogFormMessage = null;
+		addCatalogFormMessageIsError = false;
+		this.openAddCatalogForm = openAddCatalogForm;
+	}
+	
+	public void handleAddCategoryEntity() {
+		try {
+			if(homeStore.getUserEntity()==null) {
+				LoginEntity user = loginService.getUserLoginEntity(homeStore.getUserEmail());
+				homeStore.setUserEntity(user);
+			};
+			boolean categoryTitleAlreadyExists = false;
+			for(ExpenseCatalogEntity e: expenseCatalogList) {
+				if(e.getCategory().equalsIgnoreCase(addCatalogCategoryTitle.trim()))
+				{
+					setAddCatalogFormMessage("Category with title "+ addCatalogCategoryTitle.trim() +" already exists");
+					setAddCatalogFormMessageIsError(true);
+					categoryTitleAlreadyExists = true;
+					break;
+				}
+			}
+			if(categoryTitleAlreadyExists)
+				return;
+			System.out.println(categoryTitleAlreadyExists);
+			homeStore.setMainLoaderMessage(null);
+			homeStore.setShowMainLoader(true);
+			ExpenseCatalogEntity category = new ExpenseCatalogEntity();
+			category.setCategory(addCatalogCategoryTitle);
+			category.setDescription(addCatalogDescription);
+			category.setUser(homeStore.getUserEntity());
+			List<String> response = manageExpensesRemote.addCatalog(category);
+			addCatalogFormMessageIsError = response.get(0).equals("error");
+			addCatalogFormMessage = response.get(1);
+			if(!addCatalogFormMessageIsError) {
+				expenseCatalogList.add(0, category);
+			}
+			handleResetCatalogAddForm();
+			homeStore.setShowMainLoader(false);
+		}
+		catch(Exception e) {
+			System.err.println("Caught error in handleAddCategologEntity() : " + e.getMessage());
+			addCatalogFormMessage = "Failed to add catalog. Please try again";
+			addCatalogFormMessageIsError = true;
+			homeStore.setShowMainLoader(false);
+		}
+	}
 	
 	public void getLoadMyExpensesHistoryData() {
 		try {
@@ -592,11 +649,43 @@ public class DashboardStore {
 		this.expenseHistoryListAll = expenseHistoryListAll;
 	}
 
-	public boolean isAddCatalogClicked() {
-		return addCatalogClicked;
+	public boolean isOpenAddCatalogForm() {
+		return openAddCatalogForm;
 	}
 
-	public void setAddCatalogClicked(boolean addCatalogClicked) {
-		this.addCatalogClicked = addCatalogClicked;
+	public void setOpenAddCatalogForm(boolean openAddCatalogForm) {
+		this.openAddCatalogForm = openAddCatalogForm;
+	}
+
+	public String getAddCatalogCategoryTitle() {
+		return addCatalogCategoryTitle;
+	}
+
+	public void setAddCatalogCategoryTitle(String addCatalogCategoryTitle) {
+		this.addCatalogCategoryTitle = addCatalogCategoryTitle.trim();
+	}
+
+	public String getAddCatalogDescription() {
+		return addCatalogDescription;
+	}
+
+	public void setAddCatalogDescription(String addCatalogDescription) {
+		this.addCatalogDescription = addCatalogDescription;
+	}
+
+	public String getAddCatalogFormMessage() {
+		return addCatalogFormMessage;
+	}
+
+	public void setAddCatalogFormMessage(String addCatalogFormMessage) {
+		this.addCatalogFormMessage = addCatalogFormMessage;
+	}
+
+	public boolean isAddCatalogFormMessageIsError() {
+		return addCatalogFormMessageIsError;
+	}
+
+	public void setAddCatalogFormMessageIsError(boolean addCatalogFormMessageIsError) {
+		this.addCatalogFormMessageIsError = addCatalogFormMessageIsError;
 	}
 }

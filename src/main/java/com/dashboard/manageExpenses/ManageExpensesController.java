@@ -89,4 +89,28 @@ public class ManageExpensesController implements ManageExpensesRemote {
 			em.close();
 		}
 	}
+
+	@Override
+	public List<String> addCatalog(ExpenseCatalogEntity catlog) {
+		List<String> response = new LinkedList<>();
+		EntityManager em = emf.createEntityManager();
+		try {
+			response.add("success");
+			em.getTransaction().begin();
+			em.persist(catlog);
+			em.getTransaction().commit();
+			response.add("Catalog added successfully");
+			return response;
+		}
+		catch(Exception e) {
+			if(em.getTransaction().isActive())
+				em.getTransaction().rollback();
+			response.add("error");
+			response.add("Failed to add category. Please try again");
+			return response;
+		}
+		finally {
+			em.close();
+		}
+	}
 }

@@ -2,7 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+>
 
 	<ui:composition>
 		<h:panelGroup layout="block" styleClass="overflow-hidden w-full flex flex-col gap-y-2">
@@ -12,16 +14,66 @@
 				<h:outputText value="You have no categories added." styleClass="text-[calc(18px+0.2dvw)] text-center font-semibold mb-2" />
 				<h:outputText value="Please add your first category." styleClass="text-[calc(14px+0.2dvw)] text-center text-opacity-[0.8]" />
 				<h:form styleClass="flex justify-center">
-					<h:commandButton value="Add Category" action="#{dashboard.handleCatalogBtnClick()}"
+					<h:commandButton value="Add Category" action="#{dashboard.handleCatalogBtnClick(true)}"
 						styleClass="mt-4 cursor-pointer w-fit inline-block bg-lightPrimary dark:bg-darkPrimary hover:bg-lightPrimary/[0.90] dark:hover:bg-darkPrimary/[0.8] transition-all text-white font-bold py-2 px-4 rounded"
 					/>
 				</h:form>
 			</h:panelGroup>
 			<h:form styleClass="flex justify-left">
-				<h:commandButton type="submit" action="#{dashboard.handleCatalogBtnClick()}" value="Add Catalog"
+				<h:commandButton rendered="#{dashboard.openAddCatalogForm}" type="submit" action="#{dashboard.handleCatalogBtnClick(false)}" value="Close form"
+					styleClass="cursor-pointer w-fit inline-block bg-lightPrimary dark:bg-darkPrimary hover:bg-lightPrimary/[0.90] dark:hover:bg-darkPrimary/[0.8] transition-all text-white font-bold py-2 px-4 rounded"
+				/>
+				<h:commandButton rendered="#{!dashboard.openAddCatalogForm}" type="submit" action="#{dashboard.handleCatalogBtnClick(true)}" value="Add Catalog"
 					styleClass="cursor-pointer w-fit inline-block bg-lightPrimary dark:bg-darkPrimary hover:bg-lightPrimary/[0.90] dark:hover:bg-darkPrimary/[0.8] transition-all text-white font-bold py-2 px-4 rounded"
 				/>
 			</h:form>
+			<h:panelGroup rendered="#{dashboard.openAddCatalogForm}" styleClass="flex justify-center py-4">			
+				<h:form id="add_catalog_form" styleClass="flex flex-col gap-y-4 max-ssm:gap-y-3 w-full max-w-[550px] px-10 py-8 max-md:px-8 max-md:py-6 max-ssm:px-6 max-ssm:py-4 border border-lightText dark:border-darkText rounded-xl shaow-inner">
+					<div class="flex flex-col gap-y-1 w-full">
+						<h:outputLabel
+						    for="expense_add_category"
+						    styleClass="cursor-text font-semibold max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+							value="Category Title"
+						/>
+						<h:inputText
+							id="expense_add_category"
+						    name="expense_add_category"
+						    value="#{dashboard.addCatalogCategoryTitle}"
+						    required="true"
+						    requiredMessage="Catalog title is required"
+						    label="Enter Catalog title"
+						    styleClass="w-full border-b border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-inherit"
+						/>
+						<h:message styleClass="text-sm" for="expense_add_category" style="color:red;" />
+					</div>
+					<div class="flex flex-col gap-y-1 w-full">
+						<h:outputLabel
+						    for="expense__catalog_description"
+						    styleClass="cursor-text font-semibold max-sm:text-xs text-sm text-opacity-85 peer-focus:text-opacity-100"
+							value="Description"
+						/>
+						<h:inputTextarea
+							id="expense_catalog_description"
+						    name="expense_catalog_description"
+						    value="#{dashboard.addCatalogDescription}"
+						    a:placeholder="Detail the expense category"
+							styleClass="custom_scrollbar w-full border-b dark:placeholder:text-darkText/50 border-lightText/[0.8] dark:border-darkText/[0.8] py-1 focus:border-lightText focus:dark:border-darkText transition-colors focus:outline-none peer bg-inherit"
+						/>
+						<h:message styleClass="text-sm" for="expense_catalog_description" style="color:red;" />
+					</div>
+					<h:panelGroup layout="block" styleClass="py-3 w-full items-center flex flex-wrap justify-center gap-x-4 gap-y-3">
+						<h:commandButton type="submit" action="#{dashboard.handleAddCategoryEntity()}" value="Add Category"
+							styleClass="w-full font-semibold order-1 cursor-pointer text-wrap py-[0.5em] px-[2em] rounded-md text-darkText dark:bg-darkPrimary hover:dark:bg-darkPrimary/[0.9] dark:hover:shadow-darkPrimary hover:shadow-inner bg-lightPrimary hover:bg-lightPrimary/[0.95] transition-all shadow-md"
+						>
+							<f:ajax execute="@form" render=":add_catalog_form"></f:ajax>
+						</h:commandButton>
+					</h:panelGroup>
+					<span>
+						<h:outputText value="#{dashboard.addCatalogFormMessage}" rendered="#{dashboard.addCatalogFormMessageIsError}" style="color: red;" />
+						<h:outputText value="#{dashboard.addCatalogFormMessage}" rendered="#{not dashboard.addCatalogFormMessageIsError}" style="color: green;" />
+					</span>
+				</h:form>
+			</h:panelGroup>
 			<h:panelGroup layout="block" rendered="#{not (dashboard.expenseCatalogList==null or dashboard.expenseCatalogList.size()==0)}"
                 styleClass="flex flex-col gap-y-2 justify-center mt-4 custom_scrollbar__hidden overflow-auto mb-[60px]">
                 <h:panelGroup id="dashboard__expense_catalog_card_container_grid" layout="block" styleClass="grid md:gap-x-4 gap-x-3 gap-y-4 grid-cols-4 max-xxl:grid-cols-3 max-md:grid-cols-2 max-ssm:grid-cols-1">

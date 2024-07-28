@@ -11,6 +11,7 @@ import com.model.ExpenseEntity;
 @Remote
 public interface ManageExpensesRemote {
 	public List<String> addExpense(ExpenseEntity expense);
+	public List<String> addCatalog(ExpenseCatalogEntity catlog);
 	public List<ExpenseCatalogEntity> getExpenseCategories(LoginEntity user);
 	public ExpenseCatalogEntity getExpenseCatalogWithIdFromList(List<ExpenseCatalogEntity> expenseCatalogList, long id);
 	public List<ExpenseEntity> getExpenseHistoryList(LoginEntity user, int offset);

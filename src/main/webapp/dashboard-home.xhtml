@@ -4,7 +4,54 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 
-	<ui:composition>
-		<h:outputText value="#{dashboard.activePage}" />
-	</ui:composition>
+<body>
+    <ui:composition>
+        <h:panelGroup layout="block" styleClass="flex flex-col gap-y-3">
+            <h:panelGroup layout="block" id="selected_month_metrics__container">
+                <h:panelGroup styleClass="flex flex-col gap-y-1 justify-center text-center text-[calc(16px+0.2dvw)] mt-2 font-semibold tracking-wide text-lightText/[0.95] dark:text-darkText/[0.95]" layout="block"
+                              rendered="#{dashboardHome.failedToGetSelectedMonthIncomeExpenseSaving}">
+                    <span><h:outputText value="Failed to load Income, Expenses and savings data." /></span>
+                    <span class="flex text-center justify-center">
+                        <h:outputText value="Click" />
+                        <h:form>
+                            <h:commandButton type="submit" styleClass="underline underline-offset-2 hover:decoration-dotted px-1 cursor-pointer hover:text-lightText hover:dark:text-darkText transition-all"
+                            	action="#{dashboardHome.getSelectedMonthIncomeExpenseSaving()}" value="here"
+                            />
+                        </h:form>
+                        <h:outputText value="to load again." />
+                    </span>
+                </h:panelGroup>
+                <h:panelGroup styleClass="flex flex-col gap-y-2" layout="block" rendered="#{not dashboardHome.failedToGetSelectedMonthIncomeExpenseSaving}">
+                    <!-- Replace with your dynamic content -->
+                    <h:form styleClass="flex justify-end ">
+                    	<h:commandButton styleClass="cursor-pointer w-fit inline-block bg-lightPrimary dark:bg-darkPrimary hover:bg-lightPrimary/[0.90] dark:hover:bg-darkPrimary/[0.8] transition-all text-white font-bold py-2 px-4 rounded"
+                    	 	action="#{dashboardHome.getSelectedExpensesCategory()}" value="Refresh"
+                    	 />
+                    </h:form>
+                    <h:panelGroup layout="block" styleClass="mt-4 text-center grid grid-cols-2 max-vsm:grid-cols-1 gap-x-3 gap-y-4 font-semibold">
+                    	<h:panelGroup layout="block" styleClass="p-4 max-ssm:p-3 flex flex-col gap-y-1 justify-center overflow-hidden rounded-md transition-all hover:scale-[0.95] hover:dark:bg-[#887fb432] hover:shadow-inner shadow hover:bg-[#604cc217] dark:bg-[#887fb424] bg-[#604cc20d]">
+                    		<span class="text-[calc(18px+0.2dvw)]"><h:outputText value="Duration" /> </span>
+                    		<span class="text-center text-[calc(16px+0.2dvw)]"><h:outputText value="#{dashboardHome.getMonthName(dashboardHome.selectedMonth)}, #{dashboardHome.selectedYear}" /> </span>
+                    	</h:panelGroup>
+                    	<h:panelGroup layout="block" styleClass="p-4 max-ssm:p-3 flex flex-col gap-y-1 justify-center overflow-hidden rounded-md transition-all hover:scale-[0.95] hover:dark:bg-[#887fb432] hover:shadow-inner shadow hover:bg-[#604cc217] dark:bg-[#887fb424] bg-[#604cc20d]">
+                    		<span class="text-[calc(18px+0.2dvw)]"><h:outputText value="Income" /> </span>
+                    		<span class="text-center text-[calc(16px+0.2dvw)]"><h:outputText value="#{dashboardHome.selectedIncome}" /> </span>
+                    	</h:panelGroup>
+                    	<h:panelGroup layout="block" styleClass="p-4 max-ssm:p-3 flex flex-col gap-y-1 justify-center overflow-hidden rounded-md transition-all hover:scale-[0.95] hover:dark:bg-[#887fb432] hover:shadow-inner shadow hover:bg-[#604cc217] dark:bg-[#887fb424] bg-[#604cc20d]">
+                    		<span class="text-[calc(18px+0.2dvw)]"><h:outputText value="Expenses" /> </span>
+                    		<span class="text-center text-[calc(16px+0.2dvw)]"><h:outputText value="#{dashboardHome.selectedExpense}" /> </span>
+                    	</h:panelGroup>
+                    	<h:panelGroup layout="block" styleClass="p-4 max-ssm:p-3 flex flex-col gap-y-1 justify-center overflow-hidden rounded-md transition-all hover:scale-[0.95] hover:dark:bg-[#887fb432] hover:shadow-inner shadow hover:bg-[#604cc217] dark:bg-[#887fb424] bg-[#604cc20d]">
+                    		<span class="text-[calc(18px+0.2dvw)]"><h:outputText value="Savings" /> </span>
+                    		<span class="text-center text-[calc(16px+0.2dvw)]"><h:outputText value="#{dashboardHome.selectedSavings}" rendered="#{dashboardHome.selectedSavings>=0}" styleClass="text-lightPrimary dark:text-darkPrimary" /><h:outputText value="#{dashboardHome.selectedSavings}" rendered="#{dashboardHome.selectedSavings &lt; 0}" styleClass="text-red-600" /> </span>
+                    	</h:panelGroup>
+                    </h:panelGroup>
+	                <input type="hidden" id="expenseData" value="#{dashboardHome.expenseCatalogChartDataForSelectedYearMonthJson}" />
+	                <button onclick="handleClick()">Show graphs</button>
+                    <div id="chart_div"></div>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:composition>
+</body>
 </html>
